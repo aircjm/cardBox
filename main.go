@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/aircjm/gocard/routers"
 	"log"
 )
 
@@ -10,5 +11,9 @@ func main() {
 	//go cronInit()
 
 	// 初始化路由
-	log.Println("hello World")
+	router := routers.InitRouter()
+	router.Run(":" + "8000")
+
+	// 项目启动日志
+	log.Println("hello goCard")
 }
