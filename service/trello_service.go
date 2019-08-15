@@ -53,7 +53,7 @@ func SaveCards(cards []*trello.Card) {
 // SaveCards 批量保存cards 如果有就更新
 func SaveCardsOrm(cards []*trello.Card) {
 	for _, card := range cards {
-		go dao.SaveCardOrm(*card)
+		dao.SaveCardOrm(*card)
 	}
 }
 
