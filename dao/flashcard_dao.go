@@ -30,13 +30,12 @@ func SaveCardOrm(card trello.Card) {
 	if old != nil {
 		log.Println("更新FlashCard")
 		oldFlashCard.SetFlashCard(card)
-		DB.Model(&oldFlashCard).Save(&oldFlashCard)
+		DB.Model(&oldFlashCard).Updates(&oldFlashCard)
 	} else {
 		log.Println("新增FlashCard")
 		oldFlashCard.NewFlashCard(card)
 		DB.Create(&oldFlashCard)
 	}
-
 }
 
 // 获取更新dto.FlashCard 数据 通过主键id获取
