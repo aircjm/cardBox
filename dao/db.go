@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"database/sql"
 	"github.com/aircjm/gocard/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -38,19 +37,4 @@ func InitModel() {
 
 func InitTables() {
 	//DB.AutoMigrate(dto.AnkiNoteInfo{})
-}
-
-var PG *sql.DB
-
-// GetDB 获取数据库
-func GetDB() *sql.DB {
-	if PG != nil {
-		return PG
-	}
-	PG, err := sql.Open("postgres", config.PgConnect)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-	return PG
 }
