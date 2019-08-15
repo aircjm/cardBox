@@ -2,28 +2,46 @@ package routers
 
 import (
 	"github.com/aircjm/gocard/common"
+	"github.com/aircjm/gocard/controller"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
 // 初始化路由规则
 func InitRouter() *gin.Engine {
 	router := gin.Default()
-	router.GET("/", Ping)
 	api := router.Group("/api/")
+
+	// TODO 缺少网关
+	//cardGroup.Use(middleware.Jwt())
 
 	// 公共模块API
 	commonGroup := api.Group("/common")
 
+	{
+		commonGroup.GET("/login", controller.Login)
+	}
 	// 业务模块API-卡片服务
 	cardGroup := api.Group("/card")
 
-	log.Println(commonGroup)
-	log.Println(cardGroup)
+	{
+		cardGroup.GET("/saveRecentCard", controller.SaveRecentCard)
 
-	// 网关注释
-	//cardGroup.Use(middleware.Jwt())
+	}
+
+	// Index
+	router.StaticFile("/", "./dist/index.html")
+	router.StaticFile("/index.html", "./dist/index.html")
+	router.StaticFile("/index.htm", "./dist/index.html")
+
+	// Assets that should be cached
+	router.StaticFile("/favicon.ico", "./dist/favicon.ico")
+	router.Static("/js", "./dist/js")
+	router.Static("/css", "./dist/css")
+	router.Static("/img", "./dist/img")
+	router.Static("/image", "./dist/image")
+	router.Static("/fonts", "./dist/fonts")
+
 	return router
 }
 

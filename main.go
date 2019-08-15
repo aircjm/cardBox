@@ -12,7 +12,7 @@ func main() {
 
 	// 初始化路由
 	router := routers.InitRouter()
-	router.Run(":" + "8000")
+	router.Run(":" + "8085")
 
 	// 项目启动日志
 	log.Println("hello goCard")
