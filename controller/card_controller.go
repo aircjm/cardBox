@@ -63,3 +63,9 @@ func GetCardList(c *gin.Context) {
 	}
 	cG.Response(200, 0, cards)
 }
+
+func SaveAllCards(c *gin.Context) {
+	cG := common.Gin{C: c}
+	service.SaveAllCards()
+	cG.Response(200, 0, nil)
+}

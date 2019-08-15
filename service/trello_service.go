@@ -40,7 +40,7 @@ func SaveRecentlyEditedCard() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	SaveCards(cards)
+	SaveCardsOrm(cards)
 }
 
 // SaveCards 批量保存cards 如果有就更新
@@ -91,6 +91,6 @@ func SaveAllCards() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		go SaveCards(cards)
+		go SaveCardsOrm(cards)
 	}
 }

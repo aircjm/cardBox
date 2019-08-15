@@ -26,7 +26,7 @@ func InitRouter() *gin.Engine {
 
 	{
 		cardGroup.GET("/saveRecentCard", controller.SaveRecentCard)
-
+		cardGroup.GET("/saveAllCards", controller.SaveAllCards)
 	}
 
 	// Index

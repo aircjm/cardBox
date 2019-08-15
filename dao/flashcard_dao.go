@@ -33,6 +33,8 @@ func SaveCardOrm(card trello.Card) {
 		DB.Save(oldFlashCard)
 	} else {
 		log.Println("新增FlashCard")
+		oldFlashCard.NewFlashCard(card)
+		DB.Create(oldFlashCard)
 	}
 
 }

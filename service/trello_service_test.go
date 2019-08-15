@@ -25,3 +25,7 @@ func TestSaveAllCardsOrm(t *testing.T) {
 		go SaveCardsOrm(cards)
 	}
 }
+
+func TestSaveRecentlyEditedCard(t *testing.T) {
+	SaveRecentlyEditedCard()
+}
