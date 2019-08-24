@@ -94,3 +94,12 @@ func SaveAllCards() {
 		go SaveCardsOrm(cards)
 	}
 }
+
+func GetBoardList() []*trello.Board {
+	// 后面需要迁移到查询DB使用，不再直接调用API
+	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return boards
+}

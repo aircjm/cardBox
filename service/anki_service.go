@@ -83,5 +83,28 @@ func SaveCardToAnki(Ids []string) {
 }
 
 func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, error) {
-	return nil, nil
+
+	var cards []*trello.Card
+	cardResponseList := []response.CardResponse{}
+
+	if len(request.BoardId) > 0 {
+
+		board, err := client.TrelloCL.GetBoard(request.BoardId, trello.Defaults())
+		if err != nil {
+			log.Fatalln(err)
+		}
+		cards, err = board.GetCards(trello.Defaults())
+		log.Println("查询入参有boardId")
+
+		for _, card := range cards {
+			cardResponse := response.CardResponse{}
+
+			cardResponse.CardInfo.Id = card.ID
+			cardResponse.CardInfo.Name = card.Name
+
+			cardResponseList = append(cardResponseList, cardResponse)
+		}
+	}
+
+	return cardResponseList, nil
 }

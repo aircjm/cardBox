@@ -54,9 +54,8 @@ func GetRecentCard(c *gin.Context) {
 func GetCardList(c *gin.Context) {
 	cG := common.Gin{C: c}
 
-	haveAnki := c.GetInt("haveAnki")
 	request := request.GetCardListRequest{}
-	request.HaveAnki = haveAnki
+	c.BindJSON(&request)
 	cards, err := service.GetCardList(request)
 	if err != nil {
 		log.Fatalln(err)
