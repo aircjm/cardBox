@@ -54,12 +54,26 @@ func GetRecentCard(c *gin.Context) {
 func GetCardList(c *gin.Context) {
 	cG := common.Gin{C: c}
 
-	haveAnki := c.GetInt("haveAnki")
 	request := request.GetCardListRequest{}
-	request.HaveAnki = haveAnki
+	c.BindJSON(&request)
 	cards, err := service.GetCardList(request)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	cG.Response(200, 0, cards)
+}
+
+func SaveAllCards(c *gin.Context) {
+	cG := common.Gin{C: c}
+	service.SaveAllCards()
+	cG.Response(200, 0, nil)
+}
+
+//ConvertToAnki 将卡片转换成anki的note
+func ConvertToAnki(c *gin.Context) {
+	cG := common.Gin{C: c}
+	request := request.CardIdList{}
+	c.BindJSON(&request)
+	service.ConvertToAnki(request.CardIdList)
+	cG.Response(200, 0, nil)
 }

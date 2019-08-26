@@ -20,7 +20,7 @@ type FlashCard struct {
 	Closed       int
 }
 
-func (FlashCard) SetFlashCard(trelloCard trello.Card) *FlashCard {
+func (FlashCard) NewFlashCard(trelloCard trello.Card) *FlashCard {
 	flashCard := FlashCard{}
 	flashCard.ID = trelloCard.ID
 	flashCard.CardType = 1
@@ -28,6 +28,15 @@ func (FlashCard) SetFlashCard(trelloCard trello.Card) *FlashCard {
 	flashCard.Desc = trelloCard.Desc
 	flashCard.AnkiStatus = 0
 	flashCard.CreatedAt = time.Now()
+	flashCard.UpdatedAt = time.Now()
+	return &flashCard
+}
+
+func (FlashCard) SetFlashCard(trelloCard trello.Card) *FlashCard {
+	flashCard := FlashCard{}
+	flashCard.ID = trelloCard.ID
+	flashCard.Name = trelloCard.Name
+	flashCard.Desc = trelloCard.Desc
 	flashCard.UpdatedAt = time.Now()
 	return &flashCard
 }
