@@ -38,14 +38,14 @@ func SaveBoard(board trello.Board) {
 
 	oldMingBoard := dto.MingBoard{}
 	oldMingBoard.ID = board.ID
-	DB.First(&oldMingBoard)
+	DB.Where("id = ?", oldMingBoard.ID).First(&oldMingBoard)
 	if oldMingBoard.Name != "" {
 		log.Println("更新board")
 		oldMingBoard.SetMingBoardd(board)
 		DB.Model(&oldMingBoard).Updates(&oldMingBoard)
 	} else {
 		log.Println("新增board")
-		oldMingBoard.NewMingBoard(board)
-		DB.Create(&oldMingBoard)
+		mingBoard := oldMingBoard.NewMingBoard(board)
+		DB.Create(&mingBoard)
 	}
 }
