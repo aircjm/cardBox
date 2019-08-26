@@ -46,6 +46,13 @@ func GetCardByCardId(cardId string) dto.FlashCard {
 	return result
 }
 
+//GetCardByCardIdList 通过卡片id集合获取卡片
+func GetCardByCardIdList(cardIdList []string) []dto.FlashCard {
+	var flashCardList []dto.FlashCard
+	DB.Where("id in (?)", cardIdList).Find(&flashCardList)
+	return flashCardList
+}
+
 // 获取更新dto.FlashCard 数据 通过主键id获取
 func GetCardList(request request.GetCardListRequest) []dto.FlashCard {
 	cards := []dto.FlashCard{}

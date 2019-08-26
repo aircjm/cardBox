@@ -68,3 +68,12 @@ func SaveAllCards(c *gin.Context) {
 	service.SaveAllCards()
 	cG.Response(200, 0, nil)
 }
+
+//ConvertToAnki 将卡片转换成anki的note
+func ConvertToAnki(c *gin.Context) {
+	cG := common.Gin{C: c}
+	request := request.CardIdList{}
+	c.BindJSON(&request)
+	service.ConvertToAnki(request.CardIdList)
+	cG.Response(200, 0, nil)
+}

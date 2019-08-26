@@ -105,6 +105,5 @@ func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, e
 			cardResponseList = append(cardResponseList, cardResponse)
 		}
 	}
-
 	return cardResponseList, nil
 }

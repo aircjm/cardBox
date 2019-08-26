@@ -103,3 +103,8 @@ func GetBoardList() []*trello.Board {
 	}
 	return boards
 }
+
+func ConvertToAnki(list []string) {
+	dao.GetCardByCardIdList(list)
+	// todo 转换卡片
+}
