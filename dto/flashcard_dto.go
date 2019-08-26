@@ -20,6 +20,41 @@ type FlashCard struct {
 	Closed       int
 }
 
+type MingBoard struct {
+	ID             string `gorm:"primary_key"`
+	Name           string `gorm:"not null";index`
+	Desc           string
+	Closed         bool
+	IDOrganization string `json:"idOrganization"`
+	Pinned         bool   `json:"pinned"`
+	URL            string `json:"url"`
+	ShortURL       string `json:"shortUrl"`
+	UpdatedAt      time.Time
+}
+
+func (MingBoard) NewMingBoard(board trello.Board) *MingBoard {
+	mingBoard := MingBoard{}
+	mingBoard.ID = board.ID
+	mingBoard.Name = board.Name
+	mingBoard.Desc = board.Desc
+	mingBoard.Closed = board.Closed
+	mingBoard.IDOrganization = board.IDOrganization
+	mingBoard.IDOrganization = board.IDOrganization
+	mingBoard.Pinned = board.Pinned
+	mingBoard.URL = board.URL
+	mingBoard.ShortURL = board.ShortURL
+	return &mingBoard
+}
+
+func (MingBoard) SetMingBoardd(board trello.Board) *MingBoard {
+	mingBoard := MingBoard{}
+	mingBoard.ID = board.ID
+	mingBoard.Name = board.Name
+	mingBoard.Desc = board.Desc
+	mingBoard.UpdatedAt = time.Now()
+	return &mingBoard
+}
+
 func (FlashCard) NewFlashCard(trelloCard trello.Card) *FlashCard {
 	flashCard := FlashCard{}
 	flashCard.ID = trelloCard.ID

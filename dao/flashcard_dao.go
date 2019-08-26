@@ -3,7 +3,6 @@ package dao
 import (
 	"github.com/adlio/trello"
 	"github.com/aircjm/gocard/dto"
-	"github.com/aircjm/gocard/model/request"
 	"log"
 )
 
@@ -35,15 +34,18 @@ func GetCardByCardIdList(cardIdList []string) []dto.FlashCard {
 	return flashCardList
 }
 
-// 获取更新dto.FlashCard 数据 通过主键id获取
-func GetCardList(request request.GetCardListRequest) []dto.FlashCard {
-	cards := []dto.FlashCard{}
-	where := ""
-	if request.HaveAnki > 0 {
-		where = where + ""
-	}
+func SaveBoard(board trello.Board) {
 
-	db := DB.Where(where)
-	db.Find(&cards)
-	return cards
+	oldMingBoard := dto.MingBoard{}
+	oldMingBoard.ID = board.ID
+	DB.First(&oldMingBoard)
+	if oldMingBoard.Name != "" {
+		log.Println("更新board")
+		oldMingBoard.SetMingBoardd(board)
+		DB.Model(&oldMingBoard).Updates(&oldMingBoard)
+	} else {
+		log.Println("新增board")
+		oldMingBoard.NewMingBoard(board)
+		DB.Create(&oldMingBoard)
+	}
 }

@@ -15,7 +15,7 @@ import (
 type AnkiService interface {
 }
 
-func AddAnkiNote(cardId string) {
+func AddAnkiNoteByCardId(cardId string) {
 	card, err := client.TrelloCL.GetCard(cardId, trello.Defaults())
 	if err != nil {
 		panic(err)
@@ -27,6 +27,17 @@ func AddAnkiNote(cardId string) {
 	_ = json.Unmarshal([]byte(response), &ankiResponse)
 	log.Println(ankiResponse.Result)
 	// 更新anki时间
+}
+
+func AddAnkiNote(request model.AnkiAddNoteRequest) int {
+	response := util.Post(config.AnkiConnect, request, util.ApplicationJSON)
+	log.Println("anki返回的数据是", response)
+	ankiResponse := model.AnkiResponse{}
+	_ = json.Unmarshal([]byte(response), &ankiResponse)
+	log.Println(ankiResponse.Result)
+	// 更新anki时间
+	return ankiResponse.Result
+
 }
 
 func UpdateAnkiNote(cardId string) {
@@ -78,7 +89,7 @@ func SaveTrelloToAnkiDecks() {
 // SaveCardToAnki 保存数据到anki
 func SaveCardToAnki(Ids []string) {
 	for e := range Ids {
-		AddAnkiNote(Ids[e])
+		AddAnkiNoteByCardId(Ids[e])
 	}
 }
 

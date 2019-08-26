@@ -59,7 +59,6 @@ func (AnkiAddNoteRequest) GetAnkiAddNote(card *trello.Card) (addNoteAnkiRequest 
 	request.Version = 6
 	request.Params.Note.Fields.Front = card.Name
 	request.Params.Note.Fields.Back = markdownHtml
-	request.Params.Note.DeckName = "trello"
 	request.Params.Note.ModelName = "trelloAdd"
 	labels := card.Labels
 	tags := []string{}
@@ -75,6 +74,6 @@ func (AnkiAddNoteRequest) GetAnkiAddNote(card *trello.Card) (addNoteAnkiRequest 
 }
 
 type AnkiResponse struct {
-	Result int64  `json:"result"`
+	Result int    `json:"result"`
 	Error  string `json:"error"`
 }

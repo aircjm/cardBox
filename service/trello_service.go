@@ -44,13 +44,6 @@ func SaveRecentlyEditedCard() {
 }
 
 // SaveCards 批量保存cards 如果有就更新
-func SaveCards(cards []*trello.Card) {
-	for _, card := range cards {
-		go dao.SaveCard(*card)
-	}
-}
-
-// SaveCards 批量保存cards 如果有就更新
 func SaveCardsOrm(cards []*trello.Card) {
 	for _, card := range cards {
 		dao.SaveCardOrm(*card)
@@ -87,12 +80,18 @@ func SaveAllCards() {
 	}
 
 	for _, board := range boards {
+
+		SaveBoard(board)
 		cards, err := board.GetCards(trello.Defaults())
 		if err != nil {
 			log.Fatal(err)
 		}
 		go SaveCardsOrm(cards)
 	}
+}
+
+func SaveBoard(board *trello.Board) {
+	dao.SaveBoard(*board)
 }
 
 func GetBoardList() []*trello.Board {
@@ -105,6 +104,15 @@ func GetBoardList() []*trello.Board {
 }
 
 func ConvertToAnki(list []string) {
-	dao.GetCardByCardIdList(list)
-	// todo 转换卡片
+	cardList := dao.GetCardByCardIdList(list)
+	for _, flashCard := range cardList {
+
+		if flashCard.AnkiNoteInfo.ID > 0 {
+			log.Println("已经有 anki note 笔记了，开始更新")
+		} else {
+			log.Println("新增 anki note 笔记")
+		}
+
+	}
+
 }

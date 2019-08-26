@@ -29,3 +29,12 @@ func TestSaveAllCardsOrm(t *testing.T) {
 func TestSaveRecentlyEditedCard(t *testing.T) {
 	SaveRecentlyEditedCard()
 }
+
+func TestSaveBoard(t *testing.T) {
+	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
+	if err != nil {
+
+	}
+	SaveBoard(boards[0])
+
+}
