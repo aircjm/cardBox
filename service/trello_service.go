@@ -106,7 +106,6 @@ func GetBoardList() []*trello.Board {
 func ConvertToAnki(list []string) {
 	cardList := dao.GetCardByCardIdList(list)
 	for _, flashCard := range cardList {
-
 		if flashCard.AnkiNoteInfo.ID > 0 {
 			log.Println("已经有 anki note 笔记了，开始更新")
 		} else {

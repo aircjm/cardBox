@@ -18,6 +18,7 @@ type FlashCard struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	Closed       int
+	IDBoard      string `json:"idBoard"`
 }
 
 type MingBoard struct {
@@ -72,6 +73,7 @@ func (FlashCard) SetFlashCard(trelloCard trello.Card) *FlashCard {
 	flashCard.ID = trelloCard.ID
 	flashCard.Name = trelloCard.Name
 	flashCard.Desc = trelloCard.Desc
+	flashCard.IDBoard = trelloCard.IDBoard
 	flashCard.UpdatedAt = time.Now()
 	return &flashCard
 }

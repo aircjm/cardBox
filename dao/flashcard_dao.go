@@ -13,8 +13,8 @@ func SaveCardOrm(card trello.Card) {
 	old := DB.First(&oldFlashCard)
 	if old != nil {
 		log.Println("更新FlashCard")
-		oldFlashCard.SetFlashCard(card)
-		DB.Model(&oldFlashCard).Updates(&oldFlashCard)
+		flashCard := oldFlashCard.SetFlashCard(card)
+		DB.Model(&flashCard).Updates(&flashCard)
 	} else {
 		log.Println("新增FlashCard")
 		oldFlashCard.NewFlashCard(card)
