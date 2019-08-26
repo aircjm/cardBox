@@ -30,11 +30,12 @@ func SaveCardOrm(card trello.Card) {
 	if old != nil {
 		log.Println("更新FlashCard")
 		oldFlashCard.SetFlashCard(card)
-		DB.Save(oldFlashCard)
+		DB.Model(&oldFlashCard).Updates(&oldFlashCard)
 	} else {
 		log.Println("新增FlashCard")
+		oldFlashCard.NewFlashCard(card)
+		DB.Create(&oldFlashCard)
 	}
-
 }
 
 // 获取更新dto.FlashCard 数据 通过主键id获取
@@ -43,6 +44,13 @@ func GetCardByCardId(cardId string) dto.FlashCard {
 	raw := DB.Raw("SELECT attrs FROM json_card WHERE id =  $1", cardId)
 	raw.Row().Scan(&result)
 	return result
+}
+
+//GetCardByCardIdList 通过卡片id集合获取卡片
+func GetCardByCardIdList(cardIdList []string) []dto.FlashCard {
+	var flashCardList []dto.FlashCard
+	DB.Where("id in (?)", cardIdList).Find(&flashCardList)
+	return flashCardList
 }
 
 // 获取更新dto.FlashCard 数据 通过主键id获取

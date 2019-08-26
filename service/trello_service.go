@@ -40,7 +40,7 @@ func SaveRecentlyEditedCard() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	SaveCards(cards)
+	SaveCardsOrm(cards)
 }
 
 // SaveCards 批量保存cards 如果有就更新
@@ -53,7 +53,7 @@ func SaveCards(cards []*trello.Card) {
 // SaveCards 批量保存cards 如果有就更新
 func SaveCardsOrm(cards []*trello.Card) {
 	for _, card := range cards {
-		go dao.SaveCardOrm(*card)
+		dao.SaveCardOrm(*card)
 	}
 }
 
@@ -91,6 +91,20 @@ func SaveAllCards() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		go SaveCards(cards)
+		go SaveCardsOrm(cards)
 	}
+}
+
+func GetBoardList() []*trello.Board {
+	// 后面需要迁移到查询DB使用，不再直接调用API
+	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return boards
+}
+
+func ConvertToAnki(list []string) {
+	dao.GetCardByCardIdList(list)
+	// todo 转换卡片
 }
