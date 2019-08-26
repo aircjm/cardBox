@@ -14,7 +14,7 @@ type FlashCard struct {
 	CardType     int
 	TrelloCardB  postgres.Jsonb `gorm:"type:jsonb;"`
 	TrelloCard   trello.Card    `gorm:"-"`
-	AnkiNoteInfo AnkiNoteInfo   `gorm:FOREIGNKEY:ID;ASSOCIATION_FOREIGNKEY:ID`
+	AnkiNoteInfo AnkiNoteInfo   `gorm:ForeignKey:ID;AssociationForeignKey:Refer`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	Closed       int

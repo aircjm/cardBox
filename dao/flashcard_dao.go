@@ -27,6 +27,11 @@ func SaveCardOrm(card trello.Card) {
 func GetCardByCardIdList(cardIdList []string) []dto.FlashCard {
 	var flashCardList []dto.FlashCard
 	DB.Where("id in (?)", cardIdList).Find(&flashCardList)
+	for index := range flashCardList {
+		var ankiNote dto.AnkiNoteInfo
+		DB.Where("trello_card_id = ?", flashCardList[index].ID).First(&ankiNote)
+		flashCardList[index].AnkiNoteInfo = ankiNote
+	}
 	return flashCardList
 }
 
