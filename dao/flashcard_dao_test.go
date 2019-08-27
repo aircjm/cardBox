@@ -23,3 +23,8 @@ func TestGetCardByCardIdList(t *testing.T) {
 		t.Fatal("查不到数据")
 	}
 }
+
+func TestGetBoardList(t *testing.T) {
+	boardList := GetBoardList()
+	t.Log(len(boardList))
+}

@@ -49,3 +49,10 @@ func SaveBoard(board trello.Board) {
 		DB.Create(&mingBoard)
 	}
 }
+
+//GetBoardList 获取所有的boardList
+func GetBoardList() []dto.MingBoard {
+	var boards []dto.MingBoard
+	DB.Find(&boards)
+	return boards
+}

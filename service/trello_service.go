@@ -4,6 +4,7 @@ import (
 	"github.com/adlio/trello"
 	"github.com/aircjm/gocard/client"
 	"github.com/aircjm/gocard/dao"
+	"github.com/aircjm/gocard/dto"
 	"log"
 )
 
@@ -94,12 +95,9 @@ func SaveBoard(board *trello.Board) {
 	dao.SaveBoard(*board)
 }
 
-func GetBoardList() []*trello.Board {
+func GetBoardList() []dto.MingBoard {
 	// 后面需要迁移到查询DB使用，不再直接调用API
-	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
-	if err != nil {
-		log.Fatalln(err)
-	}
+	boards := dao.GetBoardList()
 	return boards
 }
 
@@ -113,5 +111,4 @@ func ConvertToAnki(list []string) {
 		}
 
 	}
-
 }
