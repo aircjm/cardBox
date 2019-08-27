@@ -46,11 +46,16 @@ func (MingBoard) NewMingBoard(board trello.Board) *MingBoard {
 	return &mingBoard
 }
 
-func (MingBoard) SetMingBoardd(board trello.Board) *MingBoard {
+func (MingBoard) SetMingBoard(board trello.Board) *MingBoard {
 	mingBoard := MingBoard{}
 	mingBoard.ID = board.ID
 	mingBoard.Name = board.Name
 	mingBoard.Desc = board.Desc
+	mingBoard.Closed = board.Closed
+	mingBoard.IDOrganization = board.IDOrganization
+	mingBoard.Pinned = board.Pinned
+	mingBoard.URL = board.URL
+	mingBoard.ShortURL = board.ShortURL
 	mingBoard.UpdatedAt = time.Now()
 	return &mingBoard
 }
