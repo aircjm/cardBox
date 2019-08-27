@@ -40,7 +40,6 @@ func (MingBoard) NewMingBoard(board trello.Board) *MingBoard {
 	mingBoard.Desc = board.Desc
 	mingBoard.Closed = board.Closed
 	mingBoard.IDOrganization = board.IDOrganization
-	mingBoard.IDOrganization = board.IDOrganization
 	mingBoard.Pinned = board.Pinned
 	mingBoard.URL = board.URL
 	mingBoard.ShortURL = board.ShortURL

@@ -15,3 +15,7 @@ func TestAddAnkiNote(t *testing.T) {
 
 	t.Log(noteId)
 }
+
+func TestSaveTrelloToAnkiDecks(t *testing.T) {
+	SaveTrelloToAnkiDecks()
+}

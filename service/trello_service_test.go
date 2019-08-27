@@ -35,6 +35,9 @@ func TestSaveBoard(t *testing.T) {
 	if err != nil {
 
 	}
-	SaveBoard(boards[0])
+
+	for _, board := range boards {
+		SaveBoard(board)
+	}
 
 }
