@@ -131,22 +131,33 @@ func SingleConvertToAnki(cardId string) {
 	cardIdList = append(cardIdList, cardId)
 	flashCards := dao.GetCardByCardIdList(cardIdList)
 	flashCard := flashCards[0]
+	if len(flashCard.Name) > 0 {
+		var boardIdList []string
+		boardIdList = append(boardIdList, flashCard.IDBoard)
+		boards := dao.GetBoardListByBoardIdList(boardIdList)
+		board := boards[0]
+		if len(board.Name) > 0 {
+			ankiNoteInfo := dao.GetAnkiNoteByTrelloCardId(flashCard.ID)
+			if len(ankiNoteInfo.Title) > 0 {
+				if ankiNoteInfo.UpdatedAt.Before(flashCard.DateLastActivity) {
+					log.Println("卡片需要更新")
+				}
+			} else {
+				addNoteAnkiRequest := model.AnkiAddNoteRequest{}.GetAnkiAddNoteRequest(flashCard, board)
+				ankiNoteId := AddAnkiNote(*addNoteAnkiRequest)
+				if ankiNoteId > 0 {
+					ankiNote := dto.AnkiNoteInfo{}
+					ankiNote.AnkiNoteID = ankiNoteId
+					ankiNote.HtmlContext = addNoteAnkiRequest.Params.Note.Fields.Back
+					ankiNote.TrelloCardId = flashCard.ID
+					ankiNote.ModelName = addNoteAnkiRequest.Params.Note.ModelName
+					ankiNote.DeckName = addNoteAnkiRequest.Params.Note.DeckName
+					ankiNote.Status = 1
+					dao.SaveAnkiNote(ankiNote)
+				}
+			}
+		}
 
-	var boardIdList []string
-	boardIdList = append(boardIdList, flashCard.IDBoard)
-	boards := dao.GetBoardListByBoardIdList(boardIdList)
-	board := boards[0]
-	addNoteAnkiRequest := model.AnkiAddNoteRequest{}.GetAnkiAddNoteRequest(flashCard, board)
-
-	ankiNoteId := AddAnkiNote(*addNoteAnkiRequest)
-	if ankiNoteId > 0 {
-		ankiNote := dto.AnkiNoteInfo{}
-		ankiNote.AnkiNoteID = ankiNoteId
-		ankiNote.HtmlContext = addNoteAnkiRequest.Params.Note.Fields.Back
-		ankiNote.TrelloCardId = flashCard.ID
-		ankiNote.ModelName = addNoteAnkiRequest.Params.Note.ModelName
-		ankiNote.Status = 1
-		dao.SaveAnkiNote(ankiNote)
 	}
 
 }
