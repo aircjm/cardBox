@@ -74,19 +74,22 @@ func (AnkiAddNoteRequest) GetAnkiAddNote(card *trello.Card) (addNoteAnkiRequest 
 	return request
 }
 
-func (AnkiAddNoteRequest) GetAnkiAddNoteRequest(card dto.FlashCard) (addNoteAnkiRequest *AnkiAddNoteRequest) {
+func (AnkiAddNoteRequest) GetAnkiAddNoteRequest(card dto.FlashCard, board dto.MingBoard) (addNoteAnkiRequest *AnkiAddNoteRequest) {
 	markdownHtml := util.ConvertMarkdown(card.Desc)
 	request := new(AnkiAddNoteRequest)
 	request.Action = "addNote"
 	request.Version = 6
-	request.Params.Note.Fields.Front = card.Name
+	request.Params.Note.Fields.Front = board.Name + "-" + card.Name
 	request.Params.Note.Fields.Back = markdownHtml
+	request.Params.Note.DeckName = board.Name
 	request.Params.Note.ModelName = "trelloAdd"
+	tags := []string{}
+	request.Params.Note.Tags = tags
 	request.Params.Note.Options.AllowDuplicate = false
 	return request
 }
 
 type AnkiResponse struct {
-	Result int    `json:"result"`
+	Result int64  `json:"result"`
 	Error  string `json:"error"`
 }

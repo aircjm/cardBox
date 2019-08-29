@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/adlio/trello"
 	"github.com/aircjm/gocard/client"
+	"github.com/aircjm/gocard/client/model"
 	"github.com/aircjm/gocard/dao"
 	"github.com/aircjm/gocard/dto"
 	"log"
@@ -110,7 +111,42 @@ func ConvertToAnki(list []string) {
 			log.Println("已经有 anki note 笔记了，开始更新")
 		} else {
 			log.Println("新增 anki note 笔记")
+			addNoteAnkiRequest := model.AnkiAddNoteRequest{}.GetAnkiAddNoteRequest(flashCard, dto.MingBoard{})
+
+			ankiNote := AddAnkiNote(*addNoteAnkiRequest)
+			log.Println(ankiNote)
 		}
 
 	}
+}
+
+func ConvertToAnkiNote(list []string) {
+	for _, cardId := range list {
+		SingleConvertToAnki(cardId)
+	}
+}
+
+func SingleConvertToAnki(cardId string) {
+	var cardIdList = []string{}
+	cardIdList = append(cardIdList, cardId)
+	flashCards := dao.GetCardByCardIdList(cardIdList)
+	flashCard := flashCards[0]
+
+	var boardIdList []string
+	boardIdList = append(boardIdList, flashCard.IDBoard)
+	boards := dao.GetBoardListByBoardIdList(boardIdList)
+	board := boards[0]
+	addNoteAnkiRequest := model.AnkiAddNoteRequest{}.GetAnkiAddNoteRequest(flashCard, board)
+
+	ankiNoteId := AddAnkiNote(*addNoteAnkiRequest)
+	if ankiNoteId > 0 {
+		ankiNote := dto.AnkiNoteInfo{}
+		ankiNote.AnkiNoteID = ankiNoteId
+		ankiNote.HtmlContext = addNoteAnkiRequest.Params.Note.Fields.Back
+		ankiNote.TrelloCardId = flashCard.ID
+		ankiNote.ModelName = addNoteAnkiRequest.Params.Note.ModelName
+		ankiNote.Status = 1
+		dao.SaveAnkiNote(ankiNote)
+	}
+
 }

@@ -29,14 +29,17 @@ func AddAnkiNoteByCardId(cardId string) {
 	// 更新anki时间
 }
 
-func AddAnkiNote(request model.AnkiAddNoteRequest) int {
+func AddAnkiNote(request model.AnkiAddNoteRequest) int64 {
 	response := util.Post(config.AnkiConnect, request, util.ApplicationJSON)
-	log.Println("anki返回的数据是", response)
 	ankiResponse := model.AnkiResponse{}
 	_ = json.Unmarshal([]byte(response), &ankiResponse)
 	log.Println(ankiResponse.Result)
-	// 更新anki时间
-	return ankiResponse.Result
+	if len(ankiResponse.Error) > 0 {
+		log.Println("返回错误，返回信息为：", ankiResponse.Error)
+		return 0
+	} else {
+		return ankiResponse.Result
+	}
 
 }
 

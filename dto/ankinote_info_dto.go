@@ -9,6 +9,6 @@ type AnkiNoteInfo struct {
 	Title        string
 	HtmlContext  string
 	ModelName    string
-	AnkiNoteID   uint `gorm: unique_index`
-	Status       uint `gorm:"default:0"` // 0 表示待处理
+	AnkiNoteID   int64 `gorm: unique_index`
+	Status       uint  `gorm:"default:0"` // 0 表示待处理 1 表示已生成
 }

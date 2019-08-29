@@ -46,5 +46,10 @@ func TestSaveBoard(t *testing.T) {
 	for _, board := range boards {
 		SaveBoard(board)
 	}
+}
 
+func TestConvertToAnkiNote(t *testing.T) {
+	card := client.GetTestCard()
+	var cardIdList []string
+	ConvertToAnkiNote(append(cardIdList, card.ID))
 }

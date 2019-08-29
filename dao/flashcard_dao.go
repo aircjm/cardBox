@@ -56,3 +56,9 @@ func GetBoardList() []dto.MingBoard {
 	DB.Find(&boards)
 	return boards
 }
+
+func GetBoardListByBoardIdList(boardIdList []string) []dto.MingBoard {
+	var boardList []dto.MingBoard
+	DB.Where("id in (?)", boardIdList).Find(&boardList)
+	return boardList
+}
