@@ -6,6 +6,7 @@ import (
 	"github.com/aircjm/gocard/dao"
 	"github.com/aircjm/gocard/dto"
 	"log"
+	"time"
 )
 
 // GetRecentlyEditedCard 获取最新的卡片记录
@@ -75,20 +76,22 @@ func GetBoardAnkiLabelCard(board trello.Board) []*trello.Card {
 
 // SaveAllCards 保存所有的卡片
 func SaveAllCards() {
+	begin := time.Now()
 	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	for _, board := range boards {
 
-		SaveBoard(board)
+		go SaveBoard(board)
 		cards, err := board.GetCards(trello.Defaults())
 		if err != nil {
 			log.Fatal(err)
 		}
 		go SaveCardsOrm(cards)
 	}
+
+	log.Println("整个方法执行的时间为：", time.Now().Sub(begin))
 }
 
 func SaveBoard(board *trello.Board) {

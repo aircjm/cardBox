@@ -11,6 +11,13 @@ func TestSaveAllCards(t *testing.T) {
 	SaveAllCards()
 }
 
+func TestSaveCardsOrm(t *testing.T) {
+	card := client.GetTestCard()
+	var cards []*trello.Card
+	cards = append(cards, card)
+	SaveCardsOrm(cards)
+}
+
 func TestSaveAllCardsOrm(t *testing.T) {
 	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
 	if err != nil {
