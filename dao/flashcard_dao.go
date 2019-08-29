@@ -10,8 +10,8 @@ import (
 func SaveCardOrm(card trello.Card) {
 	oldFlashCard := dto.FlashCard{}
 	oldFlashCard.ID = card.ID
-	old := DB.First(&oldFlashCard)
-	if old != nil {
+	DB.First(&oldFlashCard)
+	if oldFlashCard.Name != "" {
 		log.Println("更新FlashCard")
 		flashCard := oldFlashCard.SetFlashCard(card)
 		DB.Model(&flashCard).Updates(&flashCard)

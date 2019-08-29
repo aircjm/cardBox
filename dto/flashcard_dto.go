@@ -7,18 +7,19 @@ import (
 )
 
 type FlashCard struct {
-	ID           string `gorm:"primary_key"`
-	Name         string `gorm:"not null";index`
-	Desc         string
-	AnkiStatus   int // 0 表示待处理 -1 标识放弃不生成anki笔记 1标识生成anki
-	CardType     int
-	TrelloCardB  postgres.Jsonb `gorm:"type:jsonb;"`
-	TrelloCard   trello.Card    `gorm:"-"`
-	AnkiNoteInfo AnkiNoteInfo   `gorm:ForeignKey:ID;AssociationForeignKey:Refer`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	Closed       int
-	IDBoard      string `json:"idBoard"`
+	ID               string `gorm:"primary_key"`
+	Name             string `gorm:"not null";index`
+	Desc             string
+	AnkiStatus       int // 0 表示待处理 -1 标识放弃不生成anki笔记 1标识生成anki
+	CardType         int
+	TrelloCardB      postgres.Jsonb `gorm:"type:jsonb;"`
+	TrelloCard       trello.Card    `gorm:"-"`
+	AnkiNoteInfo     AnkiNoteInfo   `gorm:ForeignKey:ID;AssociationForeignKey:Refer`
+	DateLastActivity time.Time
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+	Closed           int
+	IDBoard          string `json:"idBoard"`
 }
 
 type MingBoard struct {
@@ -69,6 +70,7 @@ func (FlashCard) NewFlashCard(trelloCard trello.Card) *FlashCard {
 	flashCard.AnkiStatus = 0
 	flashCard.CreatedAt = time.Now()
 	flashCard.UpdatedAt = time.Now()
+	flashCard.DateLastActivity = *trelloCard.DateLastActivity
 	return &flashCard
 }
 
@@ -79,5 +81,6 @@ func (FlashCard) SetFlashCard(trelloCard trello.Card) *FlashCard {
 	flashCard.Desc = trelloCard.Desc
 	flashCard.IDBoard = trelloCard.IDBoard
 	flashCard.UpdatedAt = time.Now()
+	flashCard.DateLastActivity = *trelloCard.DateLastActivity
 	return &flashCard
 }

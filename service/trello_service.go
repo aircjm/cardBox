@@ -96,7 +96,6 @@ func SaveBoard(board *trello.Board) {
 }
 
 func GetBoardList() []dto.MingBoard {
-	// 后面需要迁移到查询DB使用，不再直接调用API
 	boards := dao.GetBoardList()
 	return boards
 }
@@ -104,7 +103,7 @@ func GetBoardList() []dto.MingBoard {
 func ConvertToAnki(list []string) {
 	cardList := dao.GetCardByCardIdList(list)
 	for _, flashCard := range cardList {
-		if flashCard.AnkiNoteInfo.ID > 0 {
+		if flashCard.AnkiNoteInfo.AnkiNoteID > 0 {
 			log.Println("已经有 anki note 笔记了，开始更新")
 		} else {
 			log.Println("新增 anki note 笔记")
