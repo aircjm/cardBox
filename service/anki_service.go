@@ -6,6 +6,7 @@ import (
 	"github.com/aircjm/gocard/client"
 	"github.com/aircjm/gocard/client/model"
 	"github.com/aircjm/gocard/config"
+	"github.com/aircjm/gocard/dao"
 	"github.com/aircjm/gocard/model/request"
 	"github.com/aircjm/gocard/model/response"
 	"github.com/aircjm/gocard/util"
@@ -97,27 +98,15 @@ func SaveCardToAnki(Ids []string) {
 }
 
 func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, error) {
-
-	var cards []*trello.Card
 	cardResponseList := []response.CardResponse{}
+	cardList := dao.GetCardList(request)
+	for _, card := range cardList {
+		cardResponse := response.CardResponse{}
 
-	if len(request.BoardId) > 0 {
+		cardResponse.CardInfo.Id = card.ID
+		cardResponse.CardInfo.Name = card.Name
 
-		board, err := client.TrelloCL.GetBoard(request.BoardId, trello.Defaults())
-		if err != nil {
-			log.Fatalln(err)
-		}
-		cards, err = board.GetCards(trello.Defaults())
-		log.Println("查询入参有boardId")
-
-		for _, card := range cards {
-			cardResponse := response.CardResponse{}
-
-			cardResponse.CardInfo.Id = card.ID
-			cardResponse.CardInfo.Name = card.Name
-
-			cardResponseList = append(cardResponseList, cardResponse)
-		}
+		cardResponseList = append(cardResponseList, cardResponse)
 	}
 	return cardResponseList, nil
 }

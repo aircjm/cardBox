@@ -23,15 +23,15 @@ type FlashCard struct {
 }
 
 type MingBoard struct {
-	ID             string `gorm:"primary_key"`
-	Name           string `gorm:"not null";index`
-	Desc           string
-	Closed         bool
-	IDOrganization string `json:"idOrganization"`
-	Pinned         bool   `json:"pinned"`
-	URL            string `json:"url"`
-	ShortURL       string `json:"shortUrl"`
-	UpdatedAt      time.Time
+	ID             string    `json:"id" gorm:"primary_key"`
+	Name           string    `json:"name" gorm:"not null";index`
+	Desc           string    `json:"desc"`
+	Closed         bool      `json:"closed"`
+	IDOrganization string    `json:"idOrganization"`
+	Pinned         bool      `json:"pinned"`
+	URL            string    `json:"url"`
+	ShortURL       string    `json:"shortUrl"`
+	UpdatedAt      time.Time `json:"updated_at"`
 }
 
 func (MingBoard) NewMingBoard(board trello.Board) *MingBoard {

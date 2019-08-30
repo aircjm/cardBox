@@ -3,6 +3,7 @@ package dao
 import (
 	"github.com/adlio/trello"
 	"github.com/aircjm/gocard/dto"
+	"github.com/aircjm/gocard/model/request"
 	"log"
 )
 
@@ -55,6 +56,19 @@ func GetBoardList() []dto.MingBoard {
 	var boards []dto.MingBoard
 	DB.Find(&boards)
 	return boards
+}
+
+//GetBoardList 获取所有的boardList
+func GetCardList(request request.GetCardListRequest) []dto.FlashCard {
+	var cards []dto.FlashCard
+
+	where := ""
+	if request.CardStatus > 0 {
+		where = where + "status = " + string(request.CardStatus)
+	}
+	DB.Where(where).Find(&cards)
+
+	return cards
 }
 
 func GetBoardListByBoardIdList(boardIdList []string) []dto.MingBoard {

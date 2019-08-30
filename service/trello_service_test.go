@@ -53,3 +53,15 @@ func TestConvertToAnkiNote(t *testing.T) {
 	var cardIdList []string
 	ConvertToAnkiNote(append(cardIdList, card.ID))
 }
+
+func TestSingleConvertToAnki(t *testing.T) {
+	boards, _ := client.TrelloCL.GetMyBoards(trello.Defaults())
+	for _, board := range boards {
+		cards, _ := board.GetCards(trello.Defaults())
+		for _, card := range cards {
+			SingleConvertToAnki(card.ID)
+		}
+
+	}
+
+}
