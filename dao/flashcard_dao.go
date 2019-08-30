@@ -11,8 +11,9 @@ import (
 func SaveCardOrm(card trello.Card) {
 	oldFlashCard := dto.FlashCard{}
 	oldFlashCard.ID = card.ID
-	DB.First(&oldFlashCard)
-	if len(oldFlashCard.ID) > 0 {
+	count := 0
+	DB.First(&oldFlashCard).Count(&count)
+	if count > 0 {
 		log.Println("更新FlashCard")
 		flashCard := oldFlashCard.SetFlashCard(card)
 		DB.Model(&flashCard).Updates(&flashCard)
@@ -59,16 +60,19 @@ func GetBoardList() []dto.MingBoard {
 }
 
 //GetBoardList 获取所有的boardList
-func GetCardList(request request.GetCardListRequest) []dto.FlashCard {
+func GetCardList(request request.GetCardListRequest) ([]dto.FlashCard, int) {
 	var cards []dto.FlashCard
-
-	where := ""
-	if request.CardStatus > 0 {
-		where = where + "status = " + string(request.CardStatus)
+	var count = 0
+	db := DB
+	if request.CardStatus >= 0 {
+		db = db.Where("card_status = ?", request.CardStatus)
 	}
-	DB.Where(where).Find(&cards)
-
-	return cards
+	if request.Pagination.PageSize >= 0 {
+		db = db.Limit(request.Pagination.CurrentPage * request.Pagination.PageSize).Offset(request.Pagination.CurrentPage*request.Pagination.PageSize - request.Pagination.PageSize)
+	}
+	db.Find(&cards).Count(&count)
+	log.Println(count)
+	return cards, count
 }
 
 func GetBoardListByBoardIdList(boardIdList []string) []dto.MingBoard {

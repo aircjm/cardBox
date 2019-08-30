@@ -1,9 +1,15 @@
 package request
 
+type Pagination struct {
+	CurrentPage int `json:"currentPage"`
+	PageSize    int `json:"pageSize"`
+}
+
 // GetCardList的Request参数
 type GetCardListRequest struct {
 	BoardId    string `json:"boardId"`
 	CardStatus int    `json:"cardStatus"`
+	Pagination Pagination
 }
 
 // CardList 请求入参

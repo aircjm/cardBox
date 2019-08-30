@@ -97,9 +97,9 @@ func SaveCardToAnki(Ids []string) {
 	}
 }
 
-func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, error) {
+func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, int) {
 	cardResponseList := []response.CardResponse{}
-	cardList := dao.GetCardList(request)
+	cardList, count := dao.GetCardList(request)
 	for _, card := range cardList {
 		cardResponse := response.CardResponse{}
 
@@ -108,5 +108,5 @@ func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, e
 
 		cardResponseList = append(cardResponseList, cardResponse)
 	}
-	return cardResponseList, nil
+	return cardResponseList, count
 }
