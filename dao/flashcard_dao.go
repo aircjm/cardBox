@@ -67,6 +67,10 @@ func GetCardList(request request.GetCardListRequest) ([]dto.FlashCard, int) {
 	if request.CardStatus >= 0 {
 		db = db.Where("card_status = ?", request.CardStatus)
 	}
+	if len(request.BoardId) > 0 {
+		db = db.Where("id_board = ?", request.BoardId)
+	}
+
 	if request.Pagination.PageSize >= 0 {
 		db = db.Limit(request.Pagination.CurrentPage * request.Pagination.PageSize).Offset(request.Pagination.CurrentPage*request.Pagination.PageSize - request.Pagination.PageSize)
 	}
