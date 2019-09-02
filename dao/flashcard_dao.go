@@ -72,7 +72,8 @@ func GetCardList(request request.GetCardListRequest) ([]dto.FlashCard, int) {
 	}
 
 	if request.Pagination.PageSize >= 0 {
-		db = db.Limit(request.Pagination.CurrentPage * request.Pagination.PageSize).Offset(request.Pagination.CurrentPage*request.Pagination.PageSize - request.Pagination.PageSize)
+		//Db = Db.Limit(pageSize).Offset((page - 1) * pageSize)
+		db = db.Limit(request.Pagination.PageSize).Offset((request.Pagination.CurrentPage - 1) * request.Pagination.PageSize)
 	}
 	db.Find(&cards).Count(&count)
 	log.Println(count)
