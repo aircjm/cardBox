@@ -7,19 +7,19 @@ import (
 )
 
 type FlashCard struct {
-	ID               string `gorm:"primary_key"`
-	Name             string `gorm:"not null";index`
-	Desc             string
-	CardType         int
-	TrelloCardB      postgres.Jsonb `gorm:"type:jsonb;"`
+	ID               string         `json:"id" gorm:"primary_key"`
+	Name             string         `json:"name" gorm:"not null";index`
+	Desc             string         `json:"desc"`
+	CardType         int            `json:"cardType"`
+	TrelloCardB      postgres.Jsonb `"gorm:"type:jsonb;"`
 	TrelloCard       trello.Card    `gorm:"-"`
-	AnkiNoteInfo     AnkiNoteInfo   `gorm:ForeignKey:ID;AssociationForeignKey:Refer`
-	DateLastActivity time.Time
-	CardStatus       int // 0 表示待处理 -1 标识放弃不生成anki笔记 1标识生成anki
-	CreatedAt        time.Time
-	UpdatedAt        time.Time
-	Closed           int
-	IDBoard          string `json:"idBoard"`
+	AnkiNoteInfo     AnkiNoteInfo   `json:"ankiNoteInfo" gorm:ForeignKey:ID;AssociationForeignKey:Refer`
+	DateLastActivity time.Time      `json:"dateLastActivity"`
+	CardStatus       int            `json:"cardStatus"` // 0 表示待处理 -1 标识放弃不生成anki笔记 1标识生成anki
+	CreatedAt        time.Time      `json:"createdAt"`
+	UpdatedAt        time.Time      `json:"updatedAt"`
+	Closed           int            `json:"closed"`
+	IDBoard          string         `json:"idBoard"`
 }
 
 type MingBoard struct {

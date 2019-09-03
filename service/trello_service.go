@@ -126,6 +126,11 @@ func ConvertToAnkiNote(list []string) {
 	}
 }
 
+//UpdateCardStatus 更新卡片
+func UpdateCardStatus(card dto.FlashCard) {
+	dao.UpdateCard(card)
+}
+
 func SingleConvertToAnki(cardId string) {
 	var cardIdList = []string{}
 	cardIdList = append(cardIdList, cardId)

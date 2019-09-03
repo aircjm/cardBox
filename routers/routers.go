@@ -29,6 +29,7 @@ func InitRouter() *gin.Engine {
 		cardGroup.GET("/saveAllCards", controller.SaveAllCards)
 		cardGroup.POST("/getCardList", controller.GetCardList)
 		cardGroup.POST("/convertToAnki", controller.ConvertToAnki)
+		cardGroup.POST("/updateCardStatus", controller.UpdateCardStatus)
 	}
 	// 业务模块API-卡片服务
 	boardGroup := api.Group("/board")

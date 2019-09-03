@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/aircjm/gocard/common"
+	"github.com/aircjm/gocard/dto"
 	"github.com/aircjm/gocard/model/request"
 	"github.com/aircjm/gocard/model/response"
 	"github.com/aircjm/gocard/service"
@@ -73,5 +74,15 @@ func ConvertToAnki(c *gin.Context) {
 	request := request.CardIdList{}
 	c.BindJSON(&request)
 	service.ConvertToAnki(request.CardIdList)
+	cG.Response(200, 0, nil)
+}
+
+func UpdateCardStatus(c *gin.Context) {
+	cG := common.Gin{C: c}
+	request := dto.FlashCard{}
+	c.BindJSON(&request)
+
+	service.UpdateCardStatus(request)
+
 	cG.Response(200, 0, nil)
 }

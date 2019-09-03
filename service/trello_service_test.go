@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/adlio/trello"
 	"github.com/aircjm/gocard/client"
+	"github.com/aircjm/gocard/dto"
 	"log"
 	"testing"
 )
@@ -63,5 +64,15 @@ func TestSingleConvertToAnki(t *testing.T) {
 		}
 
 	}
+}
+
+func TestUpdateCardStatus(t *testing.T) {
+
+	card := dto.FlashCard{}
+
+	card.ID = "12342131"
+	card.CardStatus = 1
+
+	UpdateCardStatus(card)
 
 }
