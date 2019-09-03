@@ -15,7 +15,7 @@ func SaveCardOrm(card trello.Card) {
 	DB.Model(&dto.FlashCard{}).Where("id = ?", card.ID).Count(&count)
 	if count > 0 {
 		log.Println("更新FlashCard")
-		flashCard := dto.FlashCard{}.SetFlashCard(card)
+		flashCard := dto.FlashCard{}.UpdateFlashCard(card)
 		DB.Model(&dto.FlashCard{}).Updates(&flashCard)
 	} else {
 		log.Println("新增FlashCard")

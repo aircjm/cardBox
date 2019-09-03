@@ -74,7 +74,7 @@ func (FlashCard) NewFlashCard(trelloCard trello.Card) *FlashCard {
 	return &flashCard
 }
 
-func (FlashCard) SetFlashCard(trelloCard trello.Card) *FlashCard {
+func (FlashCard) UpdateFlashCard(trelloCard trello.Card) *FlashCard {
 	flashCard := FlashCard{}
 	flashCard.ID = trelloCard.ID
 	flashCard.Name = trelloCard.Name
