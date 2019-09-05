@@ -37,13 +37,6 @@ func SaveCardToAnki(c *gin.Context) {
 
 }
 
-func SaveRecentCard(c *gin.Context) {
-	cG := common.Gin{C: c}
-	service.SaveRecentlyEditedCard()
-	cG.Response(200, 0, nil)
-
-}
-
 func GetRecentCard(c *gin.Context) {
 	cG := common.Gin{C: c}
 	cards, err := service.GetRecentlyEditedCard()
@@ -85,4 +78,11 @@ func UpdateCardStatus(c *gin.Context) {
 	service.UpdateCardStatus(request)
 
 	cG.Response(200, 0, nil)
+}
+
+func SaveRecentCard(c *gin.Context) {
+	cG := common.Gin{C: c}
+	service.SaveRecentlyEditedCard()
+	cG.Response(200, 0, nil)
+
 }
