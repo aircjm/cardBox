@@ -2,7 +2,9 @@ package controller
 
 import (
 	"github.com/aircjm/gocard/common"
+	"github.com/aircjm/gocard/dto"
 	"github.com/aircjm/gocard/model/request"
+	"github.com/aircjm/gocard/model/response"
 	"github.com/aircjm/gocard/service"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -35,13 +37,6 @@ func SaveCardToAnki(c *gin.Context) {
 
 }
 
-func SaveRecentCard(c *gin.Context) {
-	cG := common.Gin{C: c}
-	service.SaveRecentlyEditedCard()
-	cG.Response(200, 0, nil)
-
-}
-
 func GetRecentCard(c *gin.Context) {
 	cG := common.Gin{C: c}
 	cards, err := service.GetRecentlyEditedCard()
@@ -56,11 +51,8 @@ func GetCardList(c *gin.Context) {
 
 	request := request.GetCardListRequest{}
 	c.BindJSON(&request)
-	cards, err := service.GetCardList(request)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	cG.Response(200, 0, cards)
+	cards, count := service.GetCardList(request)
+	cG.Response(200, 0, response.ListResponse{Count: count, List: cards})
 }
 
 func SaveAllCards(c *gin.Context) {
@@ -76,4 +68,21 @@ func ConvertToAnki(c *gin.Context) {
 	c.BindJSON(&request)
 	service.ConvertToAnki(request.CardIdList)
 	cG.Response(200, 0, nil)
+}
+
+func UpdateCardStatus(c *gin.Context) {
+	cG := common.Gin{C: c}
+	request := dto.FlashCard{}
+	c.BindJSON(&request)
+
+	service.UpdateCardStatus(request)
+
+	cG.Response(200, 0, nil)
+}
+
+func SaveRecentCard(c *gin.Context) {
+	cG := common.Gin{C: c}
+	service.SaveRecentlyEditedCard()
+	cG.Response(200, 0, nil)
+
 }

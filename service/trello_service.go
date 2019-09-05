@@ -3,8 +3,11 @@ package service
 import (
 	"github.com/adlio/trello"
 	"github.com/aircjm/gocard/client"
+	"github.com/aircjm/gocard/client/model"
 	"github.com/aircjm/gocard/dao"
+	"github.com/aircjm/gocard/dto"
 	"log"
+	"time"
 )
 
 // GetRecentlyEditedCard 获取最新的卡片记录
@@ -44,13 +47,6 @@ func SaveRecentlyEditedCard() {
 }
 
 // SaveCards 批量保存cards 如果有就更新
-func SaveCards(cards []*trello.Card) {
-	for _, card := range cards {
-		go dao.SaveCard(*card)
-	}
-}
-
-// SaveCards 批量保存cards 如果有就更新
 func SaveCardsOrm(cards []*trello.Card) {
 	for _, card := range cards {
 		dao.SaveCardOrm(*card)
@@ -81,30 +77,92 @@ func GetBoardAnkiLabelCard(board trello.Board) []*trello.Card {
 
 // SaveAllCards 保存所有的卡片
 func SaveAllCards() {
+	begin := time.Now()
 	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	for _, board := range boards {
+
+		go SaveBoard(board)
 		cards, err := board.GetCards(trello.Defaults())
 		if err != nil {
 			log.Fatal(err)
 		}
 		go SaveCardsOrm(cards)
 	}
+
+	log.Println("整个方法执行的时间为：", time.Now().Sub(begin))
 }
 
-func GetBoardList() []*trello.Board {
-	// 后面需要迁移到查询DB使用，不再直接调用API
-	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
-	if err != nil {
-		log.Fatalln(err)
-	}
+func SaveBoard(board *trello.Board) {
+	dao.SaveBoard(*board)
+}
+
+func GetBoardList() []dto.MingBoard {
+	boards := dao.GetBoardList()
 	return boards
 }
 
 func ConvertToAnki(list []string) {
-	dao.GetCardByCardIdList(list)
-	// todo 转换卡片
+	cardList := dao.GetCardByCardIdList(list)
+	for _, flashCard := range cardList {
+		if flashCard.AnkiNoteInfo.AnkiNoteID > 0 {
+			log.Println("已经有 anki note 笔记了，开始更新")
+		} else {
+			log.Println("新增 anki note 笔记")
+			addNoteAnkiRequest := model.AnkiAddNoteRequest{}.GetAnkiAddNoteRequest(flashCard, dto.MingBoard{})
+
+			ankiNote := AddAnkiNote(*addNoteAnkiRequest)
+			log.Println(ankiNote)
+		}
+
+	}
+}
+
+func ConvertToAnkiNote(list []string) {
+	for _, cardId := range list {
+		SingleConvertToAnki(cardId)
+	}
+}
+
+//UpdateCardStatus 更新卡片
+func UpdateCardStatus(card dto.FlashCard) {
+	dao.UpdateCard(card)
+}
+
+func SingleConvertToAnki(cardId string) {
+	var cardIdList = []string{}
+	cardIdList = append(cardIdList, cardId)
+	flashCards := dao.GetCardByCardIdList(cardIdList)
+	flashCard := flashCards[0]
+	if len(flashCard.Name) > 0 {
+		var boardIdList []string
+		boardIdList = append(boardIdList, flashCard.IDBoard)
+		boards := dao.GetBoardListByBoardIdList(boardIdList)
+		board := boards[0]
+		if len(board.Name) > 0 {
+			ankiNoteInfo := dao.GetAnkiNoteByTrelloCardId(flashCard.ID)
+			if len(ankiNoteInfo.Title) > 0 {
+				if ankiNoteInfo.UpdatedAt.Before(flashCard.DateLastActivity) {
+					log.Println("卡片需要更新")
+				}
+			} else {
+				addNoteAnkiRequest := model.AnkiAddNoteRequest{}.GetAnkiAddNoteRequest(flashCard, board)
+				ankiNoteId := AddAnkiNote(*addNoteAnkiRequest)
+				if ankiNoteId > 0 {
+					ankiNote := dto.AnkiNoteInfo{}
+					ankiNote.AnkiNoteID = ankiNoteId
+					ankiNote.HtmlContext = addNoteAnkiRequest.Params.Note.Fields.Back
+					ankiNote.TrelloCardId = flashCard.ID
+					ankiNote.ModelName = addNoteAnkiRequest.Params.Note.ModelName
+					ankiNote.DeckName = addNoteAnkiRequest.Params.Note.DeckName
+					ankiNote.Status = 1
+					dao.SaveAnkiNote(ankiNote)
+				}
+			}
+		}
+
+	}
+
 }

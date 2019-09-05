@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/adlio/trello"
+	"github.com/aircjm/gocard/dto"
 	"github.com/aircjm/gocard/util"
 )
 
@@ -59,7 +60,6 @@ func (AnkiAddNoteRequest) GetAnkiAddNote(card *trello.Card) (addNoteAnkiRequest 
 	request.Version = 6
 	request.Params.Note.Fields.Front = card.Name
 	request.Params.Note.Fields.Back = markdownHtml
-	request.Params.Note.DeckName = "trello"
 	request.Params.Note.ModelName = "trelloAdd"
 	labels := card.Labels
 	tags := []string{}
@@ -69,6 +69,21 @@ func (AnkiAddNoteRequest) GetAnkiAddNote(card *trello.Card) (addNoteAnkiRequest 
 			tags = append(tags, label.Name)
 		}
 	}
+	request.Params.Note.Tags = tags
+	request.Params.Note.Options.AllowDuplicate = false
+	return request
+}
+
+func (AnkiAddNoteRequest) GetAnkiAddNoteRequest(card dto.FlashCard, board dto.MingBoard) (addNoteAnkiRequest *AnkiAddNoteRequest) {
+	markdownHtml := util.ConvertMarkdown(card.Desc)
+	request := new(AnkiAddNoteRequest)
+	request.Action = "addNote"
+	request.Version = 6
+	request.Params.Note.Fields.Front = board.Name + "-" + card.Name
+	request.Params.Note.Fields.Back = markdownHtml
+	request.Params.Note.DeckName = board.Name
+	request.Params.Note.ModelName = "trelloAdd"
+	tags := []string{}
 	request.Params.Note.Tags = tags
 	request.Params.Note.Options.AllowDuplicate = false
 	return request

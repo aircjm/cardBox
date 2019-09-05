@@ -6,6 +6,7 @@ import (
 	"github.com/aircjm/gocard/client"
 	"github.com/aircjm/gocard/client/model"
 	"github.com/aircjm/gocard/config"
+	"github.com/aircjm/gocard/dao"
 	"github.com/aircjm/gocard/model/request"
 	"github.com/aircjm/gocard/model/response"
 	"github.com/aircjm/gocard/util"
@@ -15,7 +16,7 @@ import (
 type AnkiService interface {
 }
 
-func AddAnkiNote(cardId string) {
+func AddAnkiNoteByCardId(cardId string) {
 	card, err := client.TrelloCL.GetCard(cardId, trello.Defaults())
 	if err != nil {
 		panic(err)
@@ -27,6 +28,20 @@ func AddAnkiNote(cardId string) {
 	_ = json.Unmarshal([]byte(response), &ankiResponse)
 	log.Println(ankiResponse.Result)
 	// 更新anki时间
+}
+
+func AddAnkiNote(request model.AnkiAddNoteRequest) int64 {
+	response := util.Post(config.AnkiConnect, request, util.ApplicationJSON)
+	ankiResponse := model.AnkiResponse{}
+	_ = json.Unmarshal([]byte(response), &ankiResponse)
+	log.Println(ankiResponse.Result)
+	if len(ankiResponse.Error) > 0 {
+		log.Println("返回错误，返回信息为：", ankiResponse.Error)
+		return 0
+	} else {
+		return ankiResponse.Result
+	}
+
 }
 
 func UpdateAnkiNote(cardId string) {
@@ -78,32 +93,21 @@ func SaveTrelloToAnkiDecks() {
 // SaveCardToAnki 保存数据到anki
 func SaveCardToAnki(Ids []string) {
 	for e := range Ids {
-		AddAnkiNote(Ids[e])
+		AddAnkiNoteByCardId(Ids[e])
 	}
 }
 
-func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, error) {
-
-	var cards []*trello.Card
+func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, int) {
 	cardResponseList := []response.CardResponse{}
+	cardList, count := dao.GetCardList(request)
+	for _, card := range cardList {
+		cardResponse := response.CardResponse{}
 
-	if len(request.BoardId) > 0 {
+		cardResponse.CardInfo.Id = card.ID
+		cardResponse.CardInfo.Name = card.Name
+		cardResponse.CardInfo.CardStatus = card.CardStatus
 
-		board, err := client.TrelloCL.GetBoard(request.BoardId, trello.Defaults())
-		if err != nil {
-			log.Fatalln(err)
-		}
-		cards, err = board.GetCards(trello.Defaults())
-		log.Println("查询入参有boardId")
-
-		for _, card := range cards {
-			cardResponse := response.CardResponse{}
-
-			cardResponse.CardInfo.Id = card.ID
-			cardResponse.CardInfo.Name = card.Name
-
-			cardResponseList = append(cardResponseList, cardResponse)
-		}
+		cardResponseList = append(cardResponseList, cardResponse)
 	}
-	return cardResponseList, nil
+	return cardResponseList, count
 }

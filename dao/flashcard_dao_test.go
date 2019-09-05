@@ -18,9 +18,13 @@ func TestGetCardByCardIdList(t *testing.T) {
 	flashCards := GetCardByCardIdList(cardIdList)
 
 	if len(flashCards) > 0 {
-		card := flashCards[0]
-		t.Log(card.Name)
+		t.Log(flashCards[0])
 	} else {
 		t.Fatal("查不到数据")
 	}
+}
+
+func TestGetBoardList(t *testing.T) {
+	boardList := GetBoardList()
+	t.Log(len(boardList))
 }

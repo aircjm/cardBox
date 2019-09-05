@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 )
@@ -16,6 +17,7 @@ const ApplicationJSON = "application/json"
 //url:请求地址
 //response:请求返回的内容
 func Get(url string) (response string) {
+	log.Println("请求入参为：", url)
 	client := http.Client{Timeout: 5 * time.Second}
 	resp, error := client.Get(url)
 	if error != nil {
@@ -39,6 +41,8 @@ func Get(url string) (response string) {
 	}
 
 	response = result.String()
+	log.Println("返回参数为：", response)
+
 	return
 }
 
@@ -47,6 +51,7 @@ func Get(url string) (response string) {
 //content:请求放回的内容
 func Post(url string, data interface{}, contentType string) (content string) {
 	jsonStr, _ := json.Marshal(data)
+	log.Println("请求入参为：", url, string(jsonStr))
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	req.Header.Add("content-type", contentType)
 	if err != nil {
@@ -62,5 +67,6 @@ func Post(url string, data interface{}, contentType string) (content string) {
 
 	result, _ := ioutil.ReadAll(resp.Body)
 	content = string(result)
+	log.Println("返回参数为：", content)
 	return
 }
