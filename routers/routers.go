@@ -15,11 +15,13 @@ func InitRouter() *gin.Engine {
 	api := router.Group("/api/")
 	api.Use(jwt.JWT())
 
+	api.GET("/auth", controller.GetAuth)
+
 	// 公共模块API
 	commonGroup := api.Group("/common")
 
 	{
-		commonGroup.GET("/login", controller.Login)
+		commonGroup.GET("/login", controller.GetAuth)
 	}
 	// 业务模块API-卡片服务
 	cardGroup := api.Group("/card")
