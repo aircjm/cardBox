@@ -2,7 +2,9 @@ package routers
 
 import (
 	"github.com/aircjm/gocard/common"
+	"github.com/aircjm/gocard/common/responseStatus"
 	"github.com/aircjm/gocard/controller"
+	"github.com/aircjm/gocard/middleware/jwt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -11,9 +13,7 @@ import (
 func InitRouter() *gin.Engine {
 	router := gin.Default()
 	api := router.Group("/api/")
-
-	// TODO 缺少网关
-	//cardGroup.Use(middleware.Jwt())
+	api.Use(jwt.JWT())
 
 	// 公共模块API
 	commonGroup := api.Group("/common")
@@ -58,5 +58,5 @@ func InitRouter() *gin.Engine {
 // Ping API
 func Ping(c *gin.Context) {
 	cG := common.Gin{C: c}
-	cG.Response(http.StatusOK, common.Success, "goCard服务正常")
+	cG.Response(http.StatusOK, responseStatus.SUCCESS, "goCard服务正常")
 }
