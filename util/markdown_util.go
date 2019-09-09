@@ -1,11 +1,22 @@
 package util
 
 import (
+	"github.com/b3log/lute"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 )
+
+func ConvertLuteMarkdown(markdown string) string {
+	luteEngine := lute.New() // 默认已经启用 GFM 支持以及中文语境优化
+	luteEngine.SetCodeSyntaxHighlightInlineStyle(true)
+	html, err := luteEngine.MarkdownStr("", markdown)
+	if nil != err {
+		panic(err)
+	}
+	return html
+}
 
 // ConvertMarkdown 通过pandoc 转换markdown转换成html
 func ConvertMarkdown(c string) (markdownHTML string) {
