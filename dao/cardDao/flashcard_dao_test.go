@@ -1,4 +1,4 @@
-package dao
+package cardDao
 
 import (
 	"github.com/aircjm/gocard/client"

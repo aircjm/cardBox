@@ -1,4 +1,4 @@
-package dao
+package cardDao
 
 import (
 	"github.com/adlio/trello"
@@ -12,23 +12,23 @@ func SaveCardOrm(card trello.Card) {
 	oldFlashCard := dto.FlashCard{}
 	oldFlashCard.ID = card.ID
 	count := 0
-	DB.Model(&dto.FlashCard{}).Where("id = ?", card.ID).Count(&count)
+	dao.DB.Model(&dto.FlashCard{}).Where("id = ?", card.ID).Count(&count)
 	if count > 0 {
 		log.Println("更新FlashCard")
 		flashCard := dto.FlashCard{}.UpdateFlashCard(card)
-		DB.Model(&dto.FlashCard{}).Updates(&flashCard)
+		dao.DB.Model(&dto.FlashCard{}).Updates(&flashCard)
 	} else {
 		log.Println("新增FlashCard")
 		flashCard := dto.FlashCard{}.NewFlashCard(card)
-		DB.Create(&flashCard)
+		dao.DB.Create(&flashCard)
 	}
 }
 
 func UpdateCard(card dto.FlashCard) {
-	DB.Model(&card).Update("card_status", card.CardStatus)
+	dao.DB.Model(&card).Update("card_status", card.CardStatus)
 }
 
-//GetCardByCardIdList 通过卡片id集合获取卡片
+//GetCardao.DByCardIdList 通过卡片id集合获取卡片
 func GetCardByCardIdList(cardIdList []string) []dto.FlashCard {
 	var flashCardList []dto.FlashCard
 	DB.Where("id in (?)", cardIdList).Find(&flashCardList)

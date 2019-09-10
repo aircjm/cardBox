@@ -1,6 +1,8 @@
 package util
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestConvertLuteMarkdown(t *testing.T) {
 	markdown := "## Guide\n" +
