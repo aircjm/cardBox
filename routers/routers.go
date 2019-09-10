@@ -15,18 +15,11 @@ import (
 func InitRouter() *gin.Engine {
 	router := gin.Default()
 	api := router.Group("/api/")
-	api.Use(jwt.JWT())
 
-	api.GET("/auth", authController.GetAuth)
+	api.POST("/login", authController.GetAuth)
 
-	// 公共模块API
-	commonGroup := api.Group("/common")
-
-	{
-		commonGroup.GET("/login", authController.GetAuth)
-	}
 	// 业务模块API-卡片服务
-	cardGroup := api.Group("/card")
+	cardGroup := api.Group("/card", jwt.JWT())
 
 	{
 		cardGroup.GET("/saveRecentCard", cardController.SaveRecentCard)
@@ -37,7 +30,7 @@ func InitRouter() *gin.Engine {
 
 	}
 	// 业务模块API-卡片服务
-	boardGroup := api.Group("/board")
+	boardGroup := api.Group("/board", jwt.JWT())
 
 	{
 		boardGroup.GET("/getBoardList", boardController.GetBoardList)

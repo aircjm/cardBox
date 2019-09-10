@@ -15,19 +15,19 @@ type auth struct {
 }
 
 func GetAuth(c *gin.Context) {
-	username := c.Query("username")
-	password := c.Query("password")
-
+	auth := auth{}
+	c.BindJSON(&auth)
 	data := make(map[string]interface{})
-	isExist := authDao.CheckAuth(username, password)
+	isExist := authDao.CheckAuth(auth.Username, auth.Password)
 	code := 0
-	if isExist {
-		token, err := util.GenerateToken(username, password)
+	if isExist.ID > 0 {
+		token, err := util.GenerateToken(auth.Username, auth.Password)
 		if err != nil {
 			code = responseStatus.ERROR_AUTH_TOKEN
 		} else {
 			data["token"] = token
-
+			data["uuid"] = isExist.ID
+			data["name"] = auth.Username
 			code = responseStatus.SUCCESS
 		}
 
