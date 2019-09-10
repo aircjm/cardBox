@@ -6,7 +6,7 @@ import (
 	"github.com/aircjm/gocard/client"
 	"github.com/aircjm/gocard/client/model"
 	"github.com/aircjm/gocard/config"
-	"github.com/aircjm/gocard/dao"
+	"github.com/aircjm/gocard/dao/cardDao"
 	"github.com/aircjm/gocard/model/request"
 	"github.com/aircjm/gocard/model/response"
 	"github.com/aircjm/gocard/util"
@@ -99,7 +99,7 @@ func SaveCardToAnki(Ids []string) {
 
 func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, int) {
 	cardResponseList := []response.CardResponse{}
-	cardList, count := dao.GetCardList(request)
+	cardList, count := cardDao.GetCardList(request)
 	for _, card := range cardList {
 		cardResponse := response.CardResponse{}
 

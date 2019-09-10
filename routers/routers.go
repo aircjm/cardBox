@@ -3,7 +3,9 @@ package routers
 import (
 	"github.com/aircjm/gocard/common"
 	"github.com/aircjm/gocard/common/responseStatus"
-	"github.com/aircjm/gocard/controller"
+	"github.com/aircjm/gocard/controller/authController"
+	"github.com/aircjm/gocard/controller/boardController"
+	"github.com/aircjm/gocard/controller/cardController"
 	"github.com/aircjm/gocard/middleware/jwt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -15,30 +17,30 @@ func InitRouter() *gin.Engine {
 	api := router.Group("/api/")
 	api.Use(jwt.JWT())
 
-	api.GET("/auth", controller.GetAuth)
+	api.GET("/auth", authController.GetAuth)
 
 	// 公共模块API
 	commonGroup := api.Group("/common")
 
 	{
-		commonGroup.GET("/login", controller.GetAuth)
+		commonGroup.GET("/login", authController.GetAuth)
 	}
 	// 业务模块API-卡片服务
 	cardGroup := api.Group("/card")
 
 	{
-		cardGroup.GET("/saveRecentCard", controller.SaveRecentCard)
-		cardGroup.GET("/saveAllCards", controller.SaveAllCards)
-		cardGroup.POST("/getCardList", controller.GetCardList)
-		cardGroup.POST("/convertToAnki", controller.ConvertToAnki)
-		cardGroup.POST("/updateCardStatus", controller.UpdateCardStatus)
+		cardGroup.GET("/saveRecentCard", cardController.SaveRecentCard)
+		cardGroup.POST("/getCardList", cardController.GetCardList)
+		cardGroup.POST("/convertToAnki", cardController.ConvertToAnki)
+		cardGroup.POST("/updateCardStatus", cardController.UpdateCardStatus)
+		cardGroup.GET("/saveAllCards", cardController.SaveAllCards)
+
 	}
 	// 业务模块API-卡片服务
 	boardGroup := api.Group("/board")
 
 	{
-		boardGroup.GET("/getBoardList", controller.GetBoardList)
-		boardGroup.GET("/saveAllCards", controller.SaveAllCards)
+		boardGroup.GET("/getBoardList", boardController.GetBoardList)
 	}
 
 	// Index

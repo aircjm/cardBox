@@ -5,7 +5,8 @@ import (
 	"github.com/aircjm/gocard/dto"
 	"github.com/aircjm/gocard/model/request"
 	"github.com/aircjm/gocard/model/response"
-	"github.com/aircjm/gocard/service"
+	"github.com/aircjm/gocard/service/ankiService"
+	"github.com/aircjm/gocard/service/trelloService"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -32,14 +33,14 @@ func SaveCardToAnki(c *gin.Context) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	service.SaveCardToAnki(opt.TrelloCardIds)
+	ankiService.SaveCardToAnki(opt.TrelloCardIds)
 	cG.Response(200, 0, nil)
 
 }
 
 func GetRecentCard(c *gin.Context) {
 	cG := common.Gin{C: c}
-	cards, err := service.GetRecentlyEditedCard()
+	cards, err := trelloService.GetRecentlyEditedCard()
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -51,13 +52,13 @@ func GetCardList(c *gin.Context) {
 
 	request := request.GetCardListRequest{}
 	c.BindJSON(&request)
-	cards, count := service.GetCardList(request)
+	cards, count := ankiService.GetCardList(request)
 	cG.Response(200, 0, response.ListResponse{Count: count, List: cards})
 }
 
 func SaveAllCards(c *gin.Context) {
 	cG := common.Gin{C: c}
-	service.SaveAllCards()
+	trelloService.SaveAllCards()
 	cG.Response(200, 0, nil)
 }
 
@@ -66,7 +67,7 @@ func ConvertToAnki(c *gin.Context) {
 	cG := common.Gin{C: c}
 	request := request.CardIdList{}
 	c.BindJSON(&request)
-	service.ConvertToAnki(request.CardIdList)
+	trelloService.ConvertToAnki(request.CardIdList)
 	cG.Response(200, 0, nil)
 }
 
@@ -75,14 +76,14 @@ func UpdateCardStatus(c *gin.Context) {
 	request := dto.FlashCard{}
 	c.BindJSON(&request)
 
-	service.UpdateCardStatus(request)
+	trelloService.UpdateCardStatus(request)
 
 	cG.Response(200, 0, nil)
 }
 
 func SaveRecentCard(c *gin.Context) {
 	cG := common.Gin{C: c}
-	service.SaveRecentlyEditedCard()
+	trelloService.SaveRecentlyEditedCard()
 	cG.Response(200, 0, nil)
 
 }

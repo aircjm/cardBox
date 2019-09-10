@@ -2,7 +2,7 @@ package authController
 
 import (
 	"github.com/aircjm/gocard/common/responseStatus"
-	"github.com/aircjm/gocard/dao"
+	"github.com/aircjm/gocard/dao/authDao"
 	"github.com/aircjm/gocard/util"
 	"net/http"
 
@@ -19,7 +19,7 @@ func GetAuth(c *gin.Context) {
 	password := c.Query("password")
 
 	data := make(map[string]interface{})
-	isExist := dao.CheckAuth(username, password)
+	isExist := authDao.CheckAuth(username, password)
 	code := 0
 	if isExist {
 		token, err := util.GenerateToken(username, password)

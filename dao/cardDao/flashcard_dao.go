@@ -2,6 +2,7 @@ package cardDao
 
 import (
 	"github.com/adlio/trello"
+	"github.com/aircjm/gocard/dao"
 	"github.com/aircjm/gocard/dto"
 	"github.com/aircjm/gocard/model/request"
 	"log"
@@ -31,10 +32,10 @@ func UpdateCard(card dto.FlashCard) {
 //GetCardao.DByCardIdList 通过卡片id集合获取卡片
 func GetCardByCardIdList(cardIdList []string) []dto.FlashCard {
 	var flashCardList []dto.FlashCard
-	DB.Where("id in (?)", cardIdList).Find(&flashCardList)
+	dao.DB.Where("id in (?)", cardIdList).Find(&flashCardList)
 	for index := range flashCardList {
 		var ankiNote dto.AnkiNoteInfo
-		DB.Where("trello_card_id = ?", flashCardList[index].ID).First(&ankiNote)
+		dao.DB.Where("trello_card_id = ?", flashCardList[index].ID).First(&ankiNote)
 		flashCardList[index].AnkiNoteInfo = ankiNote
 	}
 	return flashCardList
@@ -44,22 +45,22 @@ func SaveBoard(board trello.Board) {
 
 	oldMingBoard := dto.MingBoard{}
 	oldMingBoard.ID = board.ID
-	DB.Where("id = ?", oldMingBoard.ID).First(&oldMingBoard)
+	dao.DB.Where("id = ?", oldMingBoard.ID).First(&oldMingBoard)
 	if oldMingBoard.Name != "" {
 		log.Println("更新board")
 		mingBoard := oldMingBoard.SetMingBoard(board)
-		DB.Model(&mingBoard).Updates(&mingBoard)
+		dao.DB.Model(&mingBoard).Updates(&mingBoard)
 	} else {
 		log.Println("新增board")
 		mingBoard := oldMingBoard.NewMingBoard(board)
-		DB.Create(&mingBoard)
+		dao.DB.Create(&mingBoard)
 	}
 }
 
 //GetBoardList 获取所有的boardList
 func GetBoardList() []dto.MingBoard {
 	var boards []dto.MingBoard
-	DB.Find(&boards)
+	dao.DB.Find(&boards)
 	return boards
 }
 
@@ -67,7 +68,7 @@ func GetBoardList() []dto.MingBoard {
 func GetCardList(request request.GetCardListRequest) ([]dto.FlashCard, int) {
 	var cards []dto.FlashCard
 	var count = 0
-	db := DB
+	db := dao.DB
 	if request.CardStatus > 0 {
 		db = db.Where("card_status = ?", request.CardStatus)
 	}
@@ -88,6 +89,6 @@ func GetCardList(request request.GetCardListRequest) ([]dto.FlashCard, int) {
 
 func GetBoardListByBoardIdList(boardIdList []string) []dto.MingBoard {
 	var boardList []dto.MingBoard
-	DB.Where("id in (?)", boardIdList).Find(&boardList)
+	dao.DB.Where("id in (?)", boardIdList).Find(&boardList)
 	return boardList
 }
