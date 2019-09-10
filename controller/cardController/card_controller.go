@@ -1,4 +1,4 @@
-package controller
+package cardController
 
 import (
 	"github.com/aircjm/gocard/common"

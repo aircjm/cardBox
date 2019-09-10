@@ -1,4 +1,4 @@
-package controller
+package authController
 
 import (
 	"github.com/aircjm/gocard/common/responseStatus"

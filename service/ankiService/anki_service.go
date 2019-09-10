@@ -1,4 +1,4 @@
-package service
+package ankiService
 
 import (
 	"encoding/json"
