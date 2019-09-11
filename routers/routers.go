@@ -37,17 +37,17 @@ func InitRouter() *gin.Engine {
 	}
 
 	// Index
-	router.StaticFile("/", "./dist/index.html")
-	router.StaticFile("/index.html", "./dist/index.html")
-	router.StaticFile("/index.htm", "./dist/index.html")
+	//router.StaticFile("/", "./dist/index.html")
+	//router.StaticFile("/index.html", "./dist/index.html")
+	//router.StaticFile("/index.htm", "./dist/index.html")
 
 	// Assets that should be cached
-	router.StaticFile("/favicon.ico", "./dist/favicon.ico")
-	router.Static("/js", "./dist/js")
-	router.Static("/css", "./dist/css")
-	router.Static("/img", "./dist/img")
-	router.Static("/image", "./dist/image")
-	router.Static("/fonts", "./dist/fonts")
+	//router.StaticFile("/favicon.ico", "./dist/favicon.ico")
+	//router.Static("/js", "./dist/js")
+	//router.Static("/css", "./dist/css")
+	//router.Static("/img", "./dist/img")
+	//router.Static("/image", "./dist/image")
+	//router.Static("/fonts", "./dist/fonts")
 
 	return router
 }
