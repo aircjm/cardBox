@@ -106,7 +106,7 @@ func GetCardList(request request.GetCardListRequest) ([]response.CardResponse, i
 		cardResponse.CardInfo.Id = card.ID
 		cardResponse.CardInfo.Name = card.Name
 		cardResponse.CardInfo.CardStatus = card.CardStatus
-
+		cardResponse.CardInfo.Desc = card.Desc
 		cardResponseList = append(cardResponseList, cardResponse)
 	}
 	return cardResponseList, count
