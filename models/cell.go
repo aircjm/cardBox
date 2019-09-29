@@ -43,7 +43,7 @@ func (cell Cell) ConvertToCell(card *trello.Card) Cell {
 	cell.Source = "TrelloCard_" + card.ID
 	cell.SourceUrl = card.URL
 	cell.CellStatus = int8(Zero)
-
+	// 转换trello的label到tag
 	var tagList []*Cell
 	// todo label 设置
 	for _, label := range card.Labels {
