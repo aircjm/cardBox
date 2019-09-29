@@ -2,6 +2,7 @@ package dao
 
 import (
 	"github.com/aircjm/gocard/config"
+	"github.com/aircjm/gocard/dto"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
@@ -36,5 +37,5 @@ func InitModel() {
 }
 
 func InitTables() {
-	//DB.AutoMigrate(dto.AnkiNoteInfo{})
+	DB.AutoMigrate(dto.AnkiNoteInfo{}, dto.User{})
 }
