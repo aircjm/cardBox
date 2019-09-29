@@ -1,4 +1,4 @@
-package models
+package dto
 
 import (
 	"github.com/aircjm/gocard/client"
