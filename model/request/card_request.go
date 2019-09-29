@@ -8,7 +8,7 @@ type Pagination struct {
 // GetCardList的Request参数
 type GetCardListRequest struct {
 	BoardId    string `json:"boardId"`
-	CardStatus int    `json:"cardStatus"`
+	CardStatus *int   `json:"cardStatus, omitempty"`
 	Pagination Pagination
 }
 

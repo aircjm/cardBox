@@ -69,7 +69,7 @@ func GetCardList(request request.GetCardListRequest) ([]dto.FlashCard, int) {
 	var cards []dto.FlashCard
 	var count = 0
 	db := dao.DB
-	if request.CardStatus > 0 {
+	if request.CardStatus != nil {
 		db = db.Where("card_status = ?", request.CardStatus)
 	}
 	if len(request.BoardId) > 0 {
