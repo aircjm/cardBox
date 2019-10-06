@@ -5,6 +5,7 @@ import (
 	"github.com/aircjm/gocard/client"
 	"github.com/aircjm/gocard/dto"
 	"log"
+	"sync"
 	"testing"
 )
 
@@ -17,6 +18,30 @@ func TestSaveCardsOrm(t *testing.T) {
 	var cards []*trello.Card
 	cards = append(cards, card)
 	SaveCardsOrm(cards)
+}
+
+func TestBatchSaveTrelloCardToCell(t *testing.T) {
+	boards, err := client.TrelloCL.GetMyBoards(trello.Defaults())
+	if err != nil {
+
+	}
+	// 试试看看有没有更好的多线程的方式
+	var wg sync.WaitGroup
+	for _, board := range boards {
+		trelloCards, err := board.GetCards(trello.Defaults())
+		if err != nil {
+			log.Fatal(err)
+		}
+		wg.Add(1)
+		go wgDone(&wg, trelloCards)
+
+	}
+	wg.Wait()
+}
+
+func wgDone(wg *sync.WaitGroup, cards []*trello.Card) {
+	BatchSaveTrelloCardToCell(cards)
+	wg.Done()
 }
 
 func TestSaveAllCardsOrm(t *testing.T) {

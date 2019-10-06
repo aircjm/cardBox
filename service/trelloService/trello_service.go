@@ -6,6 +6,7 @@ import (
 	"github.com/aircjm/gocard/client/model"
 	"github.com/aircjm/gocard/dao/ankiDao"
 	"github.com/aircjm/gocard/dao/cardDao"
+	"github.com/aircjm/gocard/dao/cellDao"
 	"github.com/aircjm/gocard/dto"
 	"github.com/aircjm/gocard/service/ankiService"
 	"log"
@@ -52,6 +53,13 @@ func SaveRecentlyEditedCard() {
 func SaveCardsOrm(cards []*trello.Card) {
 	for _, card := range cards {
 		cardDao.SaveCardOrm(*card)
+	}
+}
+
+func BatchSaveTrelloCardToCell(cards []*trello.Card) {
+	for _, card := range cards {
+		cell := new(dto.Cell).ConvertToCell(card)
+		cellDao.CreateOrUpdateCell(&cell)
 	}
 }
 
