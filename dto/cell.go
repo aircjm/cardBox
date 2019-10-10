@@ -17,11 +17,12 @@ const (
 
 // 细胞元素 最基本的单元
 type Cell struct {
-	ID           int64   `gorm:"primary_key"`  // id
-	CellName     string  `gorm:"unique_index"` // 细胞名称
-	CellDesc     string  // 细胞内容
-	Pid          int64   // 父id
-	CellType     int8    // 细胞类型 1flashCard 2tag
+	ID           int64  `gorm:"primary_key"`  // id
+	CellName     string `gorm:"unique_index"` // 细胞名称
+	CellDesc     string // 细胞内容
+	Pid          int64  // 父id
+	CellType     int8   // 细胞类型 1flashCard 2tag
+	Url          string
 	Source       string  // 数据来源内容
 	SourceUrl    string  // 数据来源url
 	LinkCellList []*Cell // 关联卡片集合

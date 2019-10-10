@@ -16,7 +16,8 @@ func InitRouter() *gin.Engine {
 	router := gin.Default()
 	api := router.Group("/api/")
 
-	api.POST("/login", authController.GetAuth)
+	api.POST("/user/login", authController.GetAuth)
+	api.GET("/user/info", authController.GetUserInfo)
 
 	// 业务模块API-卡片服务
 	cardGroup := api.Group("/card", jwt.JWT())

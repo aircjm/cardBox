@@ -4,6 +4,7 @@ import (
 	"github.com/aircjm/gocard/common/responseStatus"
 	"github.com/aircjm/gocard/dao/authDao"
 	"github.com/aircjm/gocard/util"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -38,6 +39,20 @@ func GetAuth(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
 		"msg":  responseStatus.GetStatusMsg(code),
+		"data": data,
+	})
+}
+
+func GetUserInfo(c *gin.Context) {
+	token := c.Param("token")
+	log.Println("token is ", token)
+	data := make(map[string]interface{})
+
+	data["name"] = "chenjiaming"
+	data["avatar"] = nil
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  responseStatus.GetStatusMsg(0),
 		"data": data,
 	})
 }
