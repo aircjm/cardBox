@@ -49,7 +49,7 @@ func GetUserInfo(c *gin.Context) {
 	data := make(map[string]interface{})
 
 	data["name"] = "chenjiaming"
-	data["avatar"] = nil
+	data["avatar"] = "https://avatars1.githubusercontent.com/u/18283183?s=40&v=4"
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"msg":  responseStatus.GetStatusMsg(0),
