@@ -10,3 +10,8 @@ type GetCardListRequest struct {
 type CardIdList struct {
 	CardIdList []string
 }
+
+// markdown请求参数
+type Markdown2htmlRequest struct {
+	MarkdownText string `json:"markdownText"`
+}

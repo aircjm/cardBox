@@ -11,6 +11,7 @@ import (
 func InitRouter() *gin.Engine {
 	router := gin.Default()
 	api := router.Group("/api/")
+	router.GET("/ping", Ping)
 
 	// TODO 缺少网关
 	//cardGroup.Use(middleware.Jwt())
@@ -30,26 +31,16 @@ func InitRouter() *gin.Engine {
 		cardGroup.POST("/getCardList", controller.GetCardList)
 		cardGroup.POST("/convertToAnki", controller.ConvertToAnki)
 	}
-	// 业务模块API-卡片服务
-	boardGroup := api.Group("/board")
 
 	{
+		// 业务模块API-卡片服务
+		boardGroup := api.Group("/board")
 		boardGroup.GET("/getBoardList", controller.GetBoardList)
 		boardGroup.GET("/saveAllCards", controller.SaveAllCards)
 	}
 
-	// Index
-	router.StaticFile("/", "./dist/index.html")
-	router.StaticFile("/index.html", "./dist/index.html")
-	router.StaticFile("/index.htm", "./dist/index.html")
-
-	// Assets that should be cached
-	router.StaticFile("/favicon.ico", "./dist/favicon.ico")
-	router.Static("/js", "./dist/js")
-	router.Static("/css", "./dist/css")
-	router.Static("/img", "./dist/img")
-	router.Static("/image", "./dist/image")
-	router.Static("/fonts", "./dist/fonts")
+	util := api.Group("/util/")
+	util.POST("/markdown2html", controller.Markdown2html)
 
 	return router
 }
