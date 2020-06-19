@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"github.com/aircjm/gocard/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
@@ -12,11 +11,12 @@ var DB *gorm.DB
 var err error
 
 func init() {
-	InitModel()
+	// 移除数据库支持
+	//InitModel()
 }
 
 func InitModel() {
-	DB, err = gorm.Open("postgres", config.PgConnect)
+	DB, err = gorm.Open("postgres", "")
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

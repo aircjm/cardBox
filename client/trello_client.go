@@ -2,12 +2,11 @@ package client
 
 import (
 	"github.com/adlio/trello"
-	"github.com/aircjm/gocard/config"
 	"log"
 )
 
 // 获取trello的client
-var TrelloCL = trello.NewClient(config.TrelloAPI, config.TrelloToken)
+var TrelloCL = trello.NewClient("", "")
 
 func GetTestCard() *trello.Card {
 	boards, err := TrelloCL.GetMyBoards(trello.Defaults())
