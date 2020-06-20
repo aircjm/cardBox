@@ -19,5 +19,3 @@
 
 .idea
 vendor
-config/config.go
-dist
