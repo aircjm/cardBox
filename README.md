@@ -6,10 +6,7 @@ everthing is card
 
 
 ## Overview
-gocard is a open personal live management project
-
-I will keep this project going.
- 
+save trello to DB
 
 ## Features
 
