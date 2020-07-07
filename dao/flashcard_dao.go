@@ -2,8 +2,8 @@ package dao
 
 import (
 	"github.com/adlio/trello"
-	"github.com/aircjm/gocard/dto"
-	"github.com/aircjm/gocard/model/request"
+	"github.com/aircjm/cardBox/dto"
+	"github.com/aircjm/cardBox/model/request"
 	"log"
 )
 

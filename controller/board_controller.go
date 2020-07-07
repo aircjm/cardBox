@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/aircjm/gocard/common"
-	"github.com/aircjm/gocard/service"
+	"github.com/aircjm/cardBox/common"
+	"github.com/aircjm/cardBox/service"
 	"github.com/gin-gonic/gin"
 )
 

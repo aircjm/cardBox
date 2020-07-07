@@ -1,6 +1,6 @@
-module github.com/aircjm/gocard
+module github.com/aircjm/cardBox
 
-go 1.12
+go 1.14
 
 require (
 	github.com/adlio/trello v1.1.0

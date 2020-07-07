@@ -2,8 +2,8 @@ package service
 
 import (
 	"github.com/adlio/trello"
-	"github.com/aircjm/gocard/client"
-	"github.com/aircjm/gocard/dao"
+	"github.com/aircjm/cardBox/client"
+	"github.com/aircjm/cardBox/dao"
 	"log"
 )
 

@@ -3,12 +3,12 @@ package service
 import (
 	"encoding/json"
 	"github.com/adlio/trello"
-	"github.com/aircjm/gocard/client"
-	"github.com/aircjm/gocard/client/model"
-	"github.com/aircjm/gocard/config"
-	"github.com/aircjm/gocard/model/request"
-	"github.com/aircjm/gocard/model/response"
-	"github.com/aircjm/gocard/util"
+	"github.com/aircjm/cardBox/client"
+	"github.com/aircjm/cardBox/client/model"
+	"github.com/aircjm/cardBox/config"
+	"github.com/aircjm/cardBox/model/request"
+	"github.com/aircjm/cardBox/model/response"
+	"github.com/aircjm/cardBox/util"
 	"log"
 )
 

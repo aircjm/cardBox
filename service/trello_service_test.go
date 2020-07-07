@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/adlio/trello"
-	"github.com/aircjm/gocard/client"
+	"github.com/aircjm/cardBox/client"
 	"log"
 	"testing"
 )

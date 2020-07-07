@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/aircjm/gocard/routers"
+	"github.com/aircjm/cardBox/routers"
 	"log"
 )
 

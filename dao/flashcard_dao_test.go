@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"github.com/aircjm/gocard/client"
+	"github.com/aircjm/cardBox/client"
 	"testing"
 )
 

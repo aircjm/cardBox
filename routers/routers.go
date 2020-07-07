@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"github.com/aircjm/gocard/common"
-	"github.com/aircjm/gocard/controller"
+	"github.com/aircjm/cardBox/common"
+	"github.com/aircjm/cardBox/controller"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

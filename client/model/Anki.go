@@ -2,7 +2,7 @@ package model
 
 import (
 	"github.com/adlio/trello"
-	"github.com/aircjm/gocard/util"
+	"github.com/aircjm/cardBox/util"
 )
 
 type AnkiAddDeckRequest struct {
