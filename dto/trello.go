@@ -3,15 +3,14 @@ package dto
 import (
 	"database/sql/driver"
 	"encoding/json"
-	"github.com/adlio/trello"
+	"github.com/jinzhu/gorm"
 )
 
 type TrelloEntity struct {
-	ID    string
-	Name  string
-	Type  int
-	Board trello.Board `sql:"TYPE:json"`
-	Card  trello.Card  `sql:"TYPE:json"`
+	gorm.Model
+	ID   string `gorm:"primary_key"`
+	Name string
+	Type int
 }
 
 func (c TrelloEntity) Value() (driver.Value, error) {

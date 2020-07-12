@@ -38,6 +38,22 @@ func SaveCardOrm(card trello.Card) {
 	}
 }
 
+// 新增或者更新trello_card数据
+func SaveCardEntity(card trello.Card) {
+	oldFlashCard := dto.TrelloEntity{}
+	oldFlashCard.ID = card.ID
+	old := DB.First(&oldFlashCard)
+	if old != nil {
+		log.Println("更新Trello Card")
+		DB.Model(&oldFlashCard).Updates(&oldFlashCard)
+	} else {
+		log.Println("新增FlashCard")
+		oldFlashCard.ID = card.ID
+		oldFlashCard.Name = card.Name
+		DB.Create(&oldFlashCard)
+	}
+}
+
 // 获取更新dto.FlashCard 数据 通过主键id获取
 func GetCardByCardId(cardId string) dto.FlashCard {
 	var result dto.FlashCard
