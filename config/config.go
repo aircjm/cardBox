@@ -35,7 +35,8 @@ type Config struct {
 		Trash      int    // 回收箱文章保留时间
 		Clean      int    // 清理回收箱频率
 	}
-	Disqus struct { // 获取文章数量相关
+	Disqus struct {
+		// 获取文章数量相关
 		ShortName    string
 		PublicKey    string
 		AccessToken  string
@@ -46,19 +47,22 @@ type Config struct {
 		ThreadCreate string
 		Interval     int
 	}
-	Google struct { // 谷歌统计
+	Google struct {
+		// 谷歌统计
 		URL string
 		Tid string
 		V   string
 		T   string
 	}
-	Qiniu struct { // 七牛CDN
+	Qiniu struct {
+		// 七牛CDN
 		Bucket    string
 		Domain    string
 		AccessKey string
 		SecretKey string
 	}
-	Mode struct { // 运行模式
+	Mode struct {
+		// 运行模式
 		EnableHttp  bool
 		HttpPort    int
 		EnableHttps bool
@@ -68,20 +72,23 @@ type Config struct {
 		AutoCert    bool
 		Domain      string
 	}
-	Twitter struct { // twitter信息
+	Twitter struct {
+		// twitter信息
 		Card    string
 		Site    string
 		Image   string
 		Address string
 	}
-	Account struct { // account 账户
+	Account struct {
+		// account 账户
 		Username    string // *
 		Password    string // *
 		Email       string
 		PhoneNumber string
 		Address     string
 	}
-	Blogger struct { // blog info 博客信息
+	Blogger struct {
+		// blog info 博客信息
 		BlogName  string
 		SubTitle  string
 		BeiAn     string

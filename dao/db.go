@@ -3,7 +3,9 @@ package dao
 import (
 	"fmt"
 	"github.com/aircjm/cardBox/config"
+	"github.com/aircjm/cardBox/dto"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/pkg/errors"
 	"log"
@@ -34,14 +36,15 @@ func init() {
 
 	// 设置
 	DB.SingularTable(true)
-
 	DB.DB().SetMaxIdleConns(10)
 	DB.DB().SetMaxOpenConns(100)
-	//
-	//if config.Config.ENV == "dev" {
-	//	DB = DB.Debug()
-	//}
-	DB = DB.Debug()
+
+	if config.DEV == "dev" {
+		DB = DB.Debug()
+	}
+
+	DB.AutoMigrate(&dto.FlashCard{}, &dto.AnkiNoteInfo{}, &dto.TrelloEntity{})
+
 	log.Println("Init DB Complete")
 }
 

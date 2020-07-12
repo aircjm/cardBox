@@ -6,5 +6,5 @@ import (
 )
 
 func TestGetDB(t *testing.T) {
-	DB.AutoMigrate(&dto.FlashCard{}, &dto.AnkiNoteInfo{})
+	DB.AutoMigrate(&dto.FlashCard{}, &dto.AnkiNoteInfo{}, &dto.TrelloEntity{})
 }
