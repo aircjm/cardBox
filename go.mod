@@ -4,9 +4,17 @@ go 1.14
 
 require (
 	github.com/adlio/trello v1.1.0
+	github.com/denisenkom/go-mssqldb v0.0.0-20200428022330-06a60b6afbbc // indirect
 	github.com/gin-gonic/gin v1.4.0
+	github.com/go-sql-driver/mysql v1.5.0 // indirect
 	github.com/jinzhu/gorm v1.9.10
+	github.com/jinzhu/now v1.1.1 // indirect
+	github.com/kr/pretty v0.1.0 // indirect
+	github.com/lib/pq v1.3.0 // indirect
+	github.com/mattn/go-isatty v0.0.12 // indirect
+	github.com/mattn/go-sqlite3 v1.14.0 // indirect
 	github.com/pkg/errors v0.8.1
-	gopkg.in/yaml.v2 v2.2.2
-	gorm.io/datatypes v0.0.0-20200709131824-976937c55e2d
+	github.com/stretchr/testify v1.5.1 // indirect
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
+	gopkg.in/yaml.v2 v2.2.8
 )
