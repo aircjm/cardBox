@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/adlio/trello v1.1.0
 	github.com/denisenkom/go-mssqldb v0.0.0-20200428022330-06a60b6afbbc // indirect
-	github.com/gin-gonic/gin v1.7.0
+	github.com/gin-gonic/gin v1.7.7
 	github.com/go-sql-driver/mysql v1.5.0 // indirect
 	github.com/jinzhu/gorm v1.9.10
 	github.com/jinzhu/now v1.1.1 // indirect
